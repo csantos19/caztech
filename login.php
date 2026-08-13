@@ -162,7 +162,7 @@ $page_description = 'CAZTech Solutions admin portal login.';
         <circle cx="12" cy="12" r="4"/>
         <path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 18.66l-1.41 1.41"/>
       </svg>
-      <span class="sr-only">Toggle theme</span>
+      <span class="sr-only">test hotdog gasjkdskjadhkajsdnsn hahahaha</span>
     </button>
   </div>
 
