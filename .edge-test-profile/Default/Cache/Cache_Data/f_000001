@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CAZTech Solutions | Build Smarter. Ship Faster.</title>
+  <meta name="description" content="CAZTech Solutions – Student-founded team building websites, systems, and apps for small and big companies." />
+
+  <script>
+    // Use the saved preference; default to dark mode for first-time visitors.
+    const savedTheme = localStorage.getItem('theme');
+    document.documentElement.classList.toggle('dark', savedTheme !== 'light');
+  </script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    window.tailwind = window.tailwind || {};
+    tailwind.config = {
+      darkMode: ["class"],
+      theme: {
+        extend: {
+          colors: {
+            border: "hsl(var(--border) / <alpha-value>)",
+            input: "hsl(var(--input) / <alpha-value>)",
+            ring: "hsl(var(--ring) / <alpha-value>)",
+            background: "hsl(var(--background) / <alpha-value>)",
+            foreground: "hsl(var(--foreground) / <alpha-value>)",
+            primary: {
+              DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+              foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
+            },
+            secondary: {
+              DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+              foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
+            },
+            destructive: {
+              DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+              foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+            },
+            muted: {
+              DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+              foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
+            },
+            accent: {
+              DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+              foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
+            },
+            popover: {
+              DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+              foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
+            },
+            card: {
+              DEFAULT: "hsl(var(--card) / <alpha-value>)",
+              foreground: "hsl(var(--card-foreground) / <alpha-value>)",
+            },
+          },
+          borderRadius: {
+            lg: "var(--radius)",
+            md: "calc(var(--radius) - 2px)",
+            sm: "calc(var(--radius) - 4px)",
+          },
+          fontFamily: {
+            sans: ["Geist", "Inter", "sans-serif"],
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 240 10% 3.9%;
+      --card: 0 0% 100%;
+      --card-foreground: 240 10% 3.9%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 240 10% 3.9%;
+      --primary: 240 5.9% 10%;
+      --primary-foreground: 0 0% 98%;
+      --secondary: 240 4.8% 95.9%;
+      --secondary-foreground: 240 5.9% 10%;
+      --muted: 240 4.8% 95.9%;
+      --muted-foreground: 240 3.8% 46.1%;
+      --accent: 240 4.8% 95.9%;
+      --accent-foreground: 240 5.9% 10%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
+      --border: 240 5.9% 90%;
+      --input: 240 5.9% 90%;
+      --ring: 240 10% 3.9%;
+      --radius: 0.75rem;
+    }
+
+    .dark {
+      --background: 240 10% 3.9%;
+      --foreground: 0 0% 98%;
+      --card: 240 10% 3.9%;
+      --card-foreground: 0 0% 98%;
+      --popover: 240 10% 3.9%;
+      --popover-foreground: 0 0% 98%;
+      --primary: 217.2 91.2% 59.8%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 240 3.7% 15.9%;
+      --muted-foreground: 240 5% 64.9%;
+      --accent: 240 3.7% 15.9%;
+      --accent-foreground: 0 0% 98%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 240 4.9% 83.9%;
+    }
+
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-family: 'Geist', 'Inter', sans-serif;
+    }
+
+    /* Keep contact-form labels and controls readable in both themes. */
+    #contact label,
+    #contact input:not([type="hidden"]),
+    #contact textarea {
+      background-color: hsl(var(--background));
+      border-color: hsl(var(--input));
+      color: hsl(var(--foreground));
+      -webkit-text-fill-color: hsl(var(--foreground));
+    }
+
+    .dark #contact input:not([type="hidden"]),
+    .dark #contact textarea {
+      background-color: hsl(var(--secondary)) !important;
+      border-color: hsl(var(--border)) !important;
+      color: hsl(var(--foreground)) !important;
+      -webkit-text-fill-color: hsl(var(--foreground)) !important;
+    }
+
+    #contact input::placeholder,
+    #contact textarea::placeholder {
+      color: hsl(var(--muted-foreground)) !important;
+      -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+      opacity: 1;
+    }
+
+    * {
+      border-color: hsl(var(--border));
+    }
+
+    .bg-hero-glow {
+      background: radial-gradient(circle at 50% 120%, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.05) 50%, rgba(255, 255, 255, 0) 100%);
+    }
+    .dark .bg-hero-glow {
+      background: radial-gradient(circle at 50% 120%, hsl(var(--primary) / 0.2) 0%, hsl(var(--primary) / 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    /* Fix autofill styling in dark mode */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px hsl(var(--background)) inset !important;
+      -webkit-text-fill-color: hsl(var(--foreground)) !important;
+      caret-color: hsl(var(--foreground)) !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* ── Marquee / News Ticker ── */
+    @keyframes marquee-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes marquee-right {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .animate-marquee-left {
+      animation: marquee-left 40s linear infinite;
+      width: max-content;
+    }
+    .animate-marquee-right {
+      animation: marquee-right 40s linear infinite;
+      width: max-content;
+    }
+    .animate-marquee-left:hover,
+    .animate-marquee-right:hover {
+      animation-play-state: paused;
+    }
+    .marquee-wrapper {
+      overflow: hidden;
+      width: 100%;
+    }
+    .animate-marquee-left > div,
+    .animate-marquee-right > div {
+      min-width: 320px;
+      max-width: 360px;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <!-- Shared CSS utilities (login etc) -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="min-h-screen bg-background font-sans antialiased text-foreground">
+
+  <!-- Reusable Hero/Top Bar -->
+  <nav class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.php"
+       class="flex items-center group transition-transform hover:scale-105 active:scale-95 duration-200">
+      <img src="image/Logo1.png"
+           alt="CAZTech Logo"
+           class="h-28 w-auto object-contain">
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <div class="hidden md:flex items-center gap-1">
+      <!-- Theme Toggle: restored beside Services -->
+      <button id="theme-toggle" type="button"
+              class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Toggle theme">
+        <svg id="theme-toggle-dark-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+        <svg id="theme-toggle-light-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 18.66l-1.41 1.41"/>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+
+      <a href="#services" class="px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/60 hover:text-foreground">Services</a>
+      <a href="#projects" class="px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/60 hover:text-foreground">Projects</a>      <a href="#about" class="px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/60 hover:text-foreground">About</a>      <a href="#contact" class="px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/60 hover:text-foreground">Contact</a>
+    </div>
+
+    <!-- Mobile: theme + hamburger -->
+    <div class="md:hidden flex items-center gap-1">
+      <!-- Theme Toggle -->
+      <button id="theme-toggle-mobile" type="button"
+              class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Toggle theme">
+        <svg id="theme-toggle-mobile-dark-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+        <svg id="theme-toggle-mobile-light-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 18.66l-1.41 1.41"/>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+
+      <!-- Hamburger Button -->
+      <button id="mobile-menu-btn" type="button"
+              class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors"
+              aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg id="hamburger-icon" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+        <svg id="close-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border/40 bg-background/95 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-1">
+      <a href="#services"
+         class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors">Services</a>
+      <a href="#projects"
+         class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors">Projects</a>
+      <a href="#about"
+         class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors">About</a>
+      <a href="#contact"
+         class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors">Contact</a>
+    </div>
+  </div>
+
+</nav>
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          
+          <!-- Left Content -->
+          <div class="flex flex-col space-y-8 relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit">
+              <span class="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
+              Available for New Projects
+            </div>
+            
+            <div class="space-y-4">
+              <h1 class="text-5xl md:text-7xl font-bold tracking-tight lg:leading-[1.1]">
+                 Build Smarter.<br>
+                 Ship <span class="text-primary">Faster.</span>
+              </h1>
+              <p class="max-w-[42rem] leading-normal text-muted-foreground sm:text-lg sm:leading-8">
+                CAZTech Solutions — Student-founded developers building high-performance web applications, modern systems, and custom software for businesses. 
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4">
+              <a href="#projects" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
+                View Projects
+              </a>
+              <a href="#contact" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
+                Contact Us
+              </a>
+            </div>
+            
+            <!-- Social Links (mimicking Padilla) -->
+            <div class="pt-4 flex items-center gap-4">
+              <a href="https://github.com/caztechsolutions" target="_blank" rel="noopener noreferrer" class="h-10 w-10 flex items-center justify-center rounded-full border border-border/50 bg-background hover:bg-accent hover:text-primary transition-all shadow-sm group">
+                <svg class="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.16-1.1-1.48-1.1-1.48-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+                <span class="sr-only">GitHub</span>
+              </a>
+              <a href="https://www.facebook.com/caztechsolutions.works" target="_blank" rel="noopener noreferrer" class="h-10 w-10 flex items-center justify-center rounded-full border border-border/50 bg-background hover:bg-accent hover:text-primary transition-all shadow-sm group">
+                <svg class="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span class="sr-only">Facebook</span>
+              </a>
+              <a href="mailto:contact@caztechsolutions.works" class="h-10 w-10 flex items-center justify-center rounded-full border border-border/50 bg-background hover:bg-accent hover:text-primary transition-all shadow-sm group">
+                <svg class="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span class="sr-only">Email</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Content (The "J" Box clone -> "C") -->
+          <div class="relative flex items-center justify-center lg:justify-end animate-in fade-in slide-in-from-right-8 duration-1000 delay-200">
+            <div class="relative group">
+              <!-- Glow Effect -->
+              <div class="absolute -inset-4 bg-primary/20 blur-3xl rounded-full -z-10 transition duration-1000 group-hover:bg-primary/30 group-hover:blur-2xl"></div>
+              
+              <!-- Avatar Box -->
+              <div class="h-64 w-64 sm:h-80 sm:w-80 rounded-3xl bg-card flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-border/50 relative overflow-hidden group-hover:-translate-y-2 transition-transform duration-500">
+                  <img src="image/Logo1.png" alt="CAZTech" class="w-full h-auto max-w-[300%] relative z-10 transition-transform duration-500 group-hover:scale-110">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 md:py-24 bg-accent/30 border-y">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-4">
+          <h2 class="text-3xl font-bold tracking-tight">Our Services</h2>
+          <p class="text-muted-foreground">Comprehensive solutions tailored to your business needs.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Service 1: Web Development -->
+          <div class="bg-card text-card-foreground border border-border p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group">
+            <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Web Development</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Custom websites and web applications built with modern frameworks like React, Vue, and PHP. Responsive, fast, and SEO-optimized.
+            </p>
+          </div>
+
+          <!-- Service 2: Business Systems -->
+          <div class="bg-card text-card-foreground border border-border p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group">
+            <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Business Systems</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Custom management systems, CRM solutions, inventory tracking, and workflow automation tailored to streamline your operations.
+            </p>
+          </div>
+
+          <!-- Service 3: Mobile Apps -->
+          <div class="bg-card text-card-foreground border border-border p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group">
+            <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Mobile Apps</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Cross-platform mobile applications using React Native and Flutter. Deliver seamless experiences on iOS and Android devices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof / What Clients Say Section -->
+    <section id="testimonials" class="py-16 md:py-24 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-4">
+          <h2 class="text-3xl font-bold tracking-tight">What Clients Say</h2>
+          <p class="text-muted-foreground">Trusted by businesses and project owners.</p>
+        </div>
+
+        
+        
+        <!-- Marquee Row 1 — scrolls left -->
+        <div class="relative marquee-wrapper">
+          <!-- Fade edges -->
+          <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+          <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+
+          <div class="flex gap-6 animate-marquee-left">
+                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;CAZTech delivered our clinic management system flawlessly. It completely transformed our document processing speeds. Highly recommended developer team.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">RC</div>
+        <div>
+          <p class="text-sm font-semibold">RJV Clinic</p>
+          <p class="text-xs text-muted-foreground">Dental Partner</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Fast execution and clean code. Their e-commerce solution helped us scale significantly during peak season. Excellent UI design.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">E</div>
+        <div>
+          <p class="text-sm font-semibold">Storefront Inc.</p>
+          <p class="text-xs text-muted-foreground">E-Commerce Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;They handled our legacy codebase migration perfectly without any data loss. They act as actual partners rather than just freelancers.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">Tech</div>
+        <div>
+          <p class="text-sm font-semibold">TechNova</p>
+          <p class="text-xs text-muted-foreground">Digital Agency</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;The patient portal they built reduced our admin workload by 60%. Truly a game-changer for our clinic operations.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">M</div>
+        <div>
+          <p class="text-sm font-semibold">MediCore</p>
+          <p class="text-xs text-muted-foreground">Healthcare</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Their tracking system streamlined our entire fleet management. Real-time updates and zero downtime since launch.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">J</div>
+        <div>
+          <p class="text-sm font-semibold">JML Logistics</p>
+          <p class="text-xs text-muted-foreground">Transport Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;From MVP to full product in just 4 weeks. CAZTech moved fast without cutting corners. Outstanding quality.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">S</div>
+        <div>
+          <p class="text-sm font-semibold">SparkDigital</p>
+          <p class="text-xs text-muted-foreground">Startup</p>
+        </div>
+      </div>
+    </div>                                      
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;CAZTech delivered our clinic management system flawlessly. It completely transformed our document processing speeds. Highly recommended developer team.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">RC</div>
+        <div>
+          <p class="text-sm font-semibold">RJV Clinic</p>
+          <p class="text-xs text-muted-foreground">Dental Partner</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Fast execution and clean code. Their e-commerce solution helped us scale significantly during peak season. Excellent UI design.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">E</div>
+        <div>
+          <p class="text-sm font-semibold">Storefront Inc.</p>
+          <p class="text-xs text-muted-foreground">E-Commerce Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;They handled our legacy codebase migration perfectly without any data loss. They act as actual partners rather than just freelancers.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">Tech</div>
+        <div>
+          <p class="text-sm font-semibold">TechNova</p>
+          <p class="text-xs text-muted-foreground">Digital Agency</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;The patient portal they built reduced our admin workload by 60%. Truly a game-changer for our clinic operations.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">M</div>
+        <div>
+          <p class="text-sm font-semibold">MediCore</p>
+          <p class="text-xs text-muted-foreground">Healthcare</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Their tracking system streamlined our entire fleet management. Real-time updates and zero downtime since launch.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">J</div>
+        <div>
+          <p class="text-sm font-semibold">JML Logistics</p>
+          <p class="text-xs text-muted-foreground">Transport Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;From MVP to full product in just 4 weeks. CAZTech moved fast without cutting corners. Outstanding quality.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">S</div>
+        <div>
+          <p class="text-sm font-semibold">SparkDigital</p>
+          <p class="text-xs text-muted-foreground">Startup</p>
+        </div>
+      </div>
+    </div>                      </div>
+        </div>
+
+        <!-- Marquee Row 2 — scrolls right (reversed order) -->
+        <div class="relative marquee-wrapper">
+          <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+          <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+
+          <div class="flex gap-6 animate-marquee-right">
+                                      
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;From MVP to full product in just 4 weeks. CAZTech moved fast without cutting corners. Outstanding quality.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">S</div>
+        <div>
+          <p class="text-sm font-semibold">SparkDigital</p>
+          <p class="text-xs text-muted-foreground">Startup</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Their tracking system streamlined our entire fleet management. Real-time updates and zero downtime since launch.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">J</div>
+        <div>
+          <p class="text-sm font-semibold">JML Logistics</p>
+          <p class="text-xs text-muted-foreground">Transport Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;The patient portal they built reduced our admin workload by 60%. Truly a game-changer for our clinic operations.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">M</div>
+        <div>
+          <p class="text-sm font-semibold">MediCore</p>
+          <p class="text-xs text-muted-foreground">Healthcare</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;They handled our legacy codebase migration perfectly without any data loss. They act as actual partners rather than just freelancers.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">Tech</div>
+        <div>
+          <p class="text-sm font-semibold">TechNova</p>
+          <p class="text-xs text-muted-foreground">Digital Agency</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Fast execution and clean code. Their e-commerce solution helped us scale significantly during peak season. Excellent UI design.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">E</div>
+        <div>
+          <p class="text-sm font-semibold">Storefront Inc.</p>
+          <p class="text-xs text-muted-foreground">E-Commerce Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;CAZTech delivered our clinic management system flawlessly. It completely transformed our document processing speeds. Highly recommended developer team.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">RC</div>
+        <div>
+          <p class="text-sm font-semibold">RJV Clinic</p>
+          <p class="text-xs text-muted-foreground">Dental Partner</p>
+        </div>
+      </div>
+    </div>                                      
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;From MVP to full product in just 4 weeks. CAZTech moved fast without cutting corners. Outstanding quality.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">S</div>
+        <div>
+          <p class="text-sm font-semibold">SparkDigital</p>
+          <p class="text-xs text-muted-foreground">Startup</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Their tracking system streamlined our entire fleet management. Real-time updates and zero downtime since launch.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">J</div>
+        <div>
+          <p class="text-sm font-semibold">JML Logistics</p>
+          <p class="text-xs text-muted-foreground">Transport Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;The patient portal they built reduced our admin workload by 60%. Truly a game-changer for our clinic operations.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">M</div>
+        <div>
+          <p class="text-sm font-semibold">MediCore</p>
+          <p class="text-xs text-muted-foreground">Healthcare</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;They handled our legacy codebase migration perfectly without any data loss. They act as actual partners rather than just freelancers.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">Tech</div>
+        <div>
+          <p class="text-sm font-semibold">TechNova</p>
+          <p class="text-xs text-muted-foreground">Digital Agency</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;Fast execution and clean code. Their e-commerce solution helped us scale significantly during peak season. Excellent UI design.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">E</div>
+        <div>
+          <p class="text-sm font-semibold">Storefront Inc.</p>
+          <p class="text-xs text-muted-foreground">E-Commerce Client</p>
+        </div>
+      </div>
+    </div>                          
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div class="space-y-4"><div class="flex items-center gap-1 text-yellow-400"><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+        <p class="text-sm text-card-foreground leading-relaxed">&ldquo;CAZTech delivered our clinic management system flawlessly. It completely transformed our document processing speeds. Highly recommended developer team.&rdquo;</p>
+      </div>
+      <div class="flex items-center gap-3 pt-4 border-t">
+        <div class="h-10 w-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">RC</div>
+        <div>
+          <p class="text-sm font-semibold">RJV Clinic</p>
+          <p class="text-xs text-muted-foreground">Dental Partner</p>
+        </div>
+      </div>
+    </div>                      </div>
+        </div>
+
+        <!-- Submit Review Form -->
+        <div class="max-w-lg mx-auto">
+          <details class="group">
+            <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-medium text-primary hover:text-primary/80 transition-colors list-none">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              Submit a Review
+            </summary>
+            <form action="includes/process.php" method="POST" class="mt-6 bg-card border rounded-2xl p-6 space-y-5 shadow-sm">
+              <input type="hidden" name="form_type" value="review">
+              <div class="space-y-2">
+                <label for="review-name" class="text-sm font-medium leading-none">Your Name / Business</label>
+                <input type="text" id="review-name" name="name" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="e.g. RJV Clinic" required>
+              </div>
+              <div class="space-y-2">
+                <label for="review-email" class="text-sm font-medium leading-none">Email (optional)</label>
+                <input type="email" id="review-email" name="business" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="john@example.com">
+              </div>
+              <div class="space-y-2">
+                <label for="review-text" class="text-sm font-medium leading-none">Your Review</label>
+                <textarea id="review-text" name="project" class="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="Share your experience working with CAZTech..." required></textarea>
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-medium leading-none">Rating</label>
+                <div class="flex items-center gap-1 review-star-rating cursor-pointer">
+                  <input type="hidden" name="rating" id="review-rating-value" value="5">
+                  <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+              </div>
+              <button type="submit" class="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-11">
+                Submit Review
+              </button>
+              <p class="text-xs text-muted-foreground text-center">Reviews are subject to admin approval before appearing publicly.</p>
+            </form>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center space-y-4 mb-10">
+          <h2 class="text-3xl font-bold tracking-tight">My Projects</h2>
+          <p class="text-muted-foreground max-w-2xl mx-auto">Explore the custom systems, scalable architectures, and beautiful responsive interfaces we’ve developed.</p>
+        </div>
+
+        <!-- Filter Pill Structure -->
+        <div class="flex flex-wrap justify-center gap-2 mb-10" id="project-filters">
+          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 active" data-filter="all">All</button>
+          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Web Development">Web Development</button>
+          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Business Systems">Business Systems</button>
+          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Mobile Apps">Mobile Apps</button>
+        </div>
+
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+    <div class="rounded-xl border bg-card shadow-sm p-4 space-y-4 flex flex-col h-[320px] animate-pulse ">
+      <div class="w-full h-40 bg-muted rounded-lg"></div>
+      <div class="h-5 w-1/2 bg-muted rounded"></div>
+      <div class="h-4 w-full bg-muted rounded"></div>
+      <div class="h-4 w-3/4 bg-muted rounded"></div>
+    </div>
+    <div class="rounded-xl border bg-card shadow-sm p-4 space-y-4 flex flex-col h-[320px] animate-pulse hidden md:flex">
+      <div class="w-full h-40 bg-muted rounded-lg"></div>
+      <div class="h-5 w-1/2 bg-muted rounded"></div>
+      <div class="h-4 w-full bg-muted rounded"></div>
+      <div class="h-4 w-3/4 bg-muted rounded"></div>
+    </div>
+    <div class="rounded-xl border bg-card shadow-sm p-4 space-y-4 flex flex-col h-[320px] animate-pulse hidden lg:flex">
+      <div class="w-full h-40 bg-muted rounded-lg"></div>
+      <div class="h-5 w-1/2 bg-muted rounded"></div>
+      <div class="h-4 w-full bg-muted rounded"></div>
+      <div class="h-4 w-3/4 bg-muted rounded"></div>
+    </div>        </div>
+      </div>
+    </section>
+
+    <!-- Meet The Team Section -->
+    <section class="py-16 md:py-24 bg-accent/30 border-y">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-4">
+          <h2 class="text-3xl font-bold tracking-tight">Meet the Team</h2>
+          <p class="text-muted-foreground">The visionaries behind CAZTech core engine.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+          
+    <div class="group p-6 rounded-2xl border bg-card/50 text-card-foreground text-center transition-all duration-300 hover:shadow-xl hover:border-primary/20 backdrop-blur-sm">
+      <button type="button" data-img="uploads/team/team_69ba5858da42a.jpg" data-title="Christian George Santos" data-category="Full-Stack Developer" class="team-photo-btn h-24 w-24 mx-auto block rounded-full bg-secondary overflow-hidden mb-5 border-2 border-transparent group-hover:border-primary/40 transition-transform hover:scale-110 cursor-zoom-in flex items-center justify-center font-bold text-2xl focus:outline-none focus:ring-2 focus:ring-primary/70"><img src="uploads/team/team_69ba5858da42a.jpg" alt="Christian George Santos" class="h-full w-full object-cover"></button>
+      <h3 class="font-bold text-lg">Christian George Santos</h3>
+      <div class="mt-2 text-xs text-muted-foreground">Full-Stack Developer</div>
+    </div>
+    <div class="group p-6 rounded-2xl border bg-card/50 text-card-foreground text-center transition-all duration-300 hover:shadow-xl hover:border-primary/20 backdrop-blur-sm">
+      <button type="button" data-img="uploads/team/team_69ba58a0747aa.jpg" data-title="Anntricia Feliciano" data-category="Full-Stack Developer" class="team-photo-btn h-24 w-24 mx-auto block rounded-full bg-secondary overflow-hidden mb-5 border-2 border-transparent group-hover:border-primary/40 transition-transform hover:scale-110 cursor-zoom-in flex items-center justify-center font-bold text-2xl focus:outline-none focus:ring-2 focus:ring-primary/70"><img src="uploads/team/team_69ba58a0747aa.jpg" alt="Anntricia Feliciano" class="h-full w-full object-cover"></button>
+      <h3 class="font-bold text-lg">Anntricia Feliciano</h3>
+      <div class="mt-2 text-xs text-muted-foreground">Full-Stack Developer</div>
+    </div>
+    <div class="group p-6 rounded-2xl border bg-card/50 text-card-foreground text-center transition-all duration-300 hover:shadow-xl hover:border-primary/20 backdrop-blur-sm">
+      <button type="button" data-img="uploads/team/team_69ba63a769db3.jpg" data-title="Zildjian Geronimo" data-category="Full-Stack Developer" class="team-photo-btn h-24 w-24 mx-auto block rounded-full bg-secondary overflow-hidden mb-5 border-2 border-transparent group-hover:border-primary/40 transition-transform hover:scale-110 cursor-zoom-in flex items-center justify-center font-bold text-2xl focus:outline-none focus:ring-2 focus:ring-primary/70"><img src="uploads/team/team_69ba63a769db3.jpg" alt="Zildjian Geronimo" class="h-full w-full object-cover"></button>
+      <h3 class="font-bold text-lg">Zildjian Geronimo</h3>
+      <div class="mt-2 text-xs text-muted-foreground">Full-Stack Developer</div>
+    </div>        </div>
+      </div>
+    </section>
+
+    <!-- About & Skills Layout -->
+    <section id="about" class="py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16">
+        
+        <!-- About Left -->
+        <div class="space-y-6">
+          <h2 class="text-3xl font-bold tracking-tight">About Us</h2>
+          <p class="text-muted-foreground leading-relaxed">
+            CAZTech is a premier technical collective built by driven students solving real-world challenges. We specialize in producing dynamic architectures alongside clean front-end frameworks.
+          </p>
+          <p class="text-muted-foreground leading-relaxed">
+            Our mission is delivering zero-friction systems—whether that is an advanced clinical management suite or a high-velocity landing page. We code responsibly, ensuring our platforms stand the test of time and scale gracefully.
+          </p>
+          <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-4">
+            Download Profile
+          </button>
+        </div>
+
+        <!-- Skills Right -->
+        <div class="space-y-6">
+          <h2 class="text-2xl font-bold tracking-tight">Skills</h2>
+          
+                    <div class="space-y-5">
+                          
+    <div class="space-y-2">
+      <div class="flex justify-between items-center text-sm font-medium">
+        <span>Frontend Dev (React, Tailwind)</span>
+        <span class="text-muted-foreground">95%</span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-secondary overflow-hidden">
+        <div class="h-full rounded-full bg-primary skill-progress w-0 transition-all duration-[1500ms] ease-out"
+             data-width="95%"></div>
+      </div>
+    </div>                          
+    <div class="space-y-2">
+      <div class="flex justify-between items-center text-sm font-medium">
+        <span>Backend Systems (PHP, Node)</span>
+        <span class="text-muted-foreground">85%</span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-secondary overflow-hidden">
+        <div class="h-full rounded-full bg-primary skill-progress w-0 transition-all duration-[1500ms] ease-out"
+             data-width="85%" style="transition-delay:150ms"></div>
+      </div>
+    </div>                          
+    <div class="space-y-2">
+      <div class="flex justify-between items-center text-sm font-medium">
+        <span>Architectural Design</span>
+        <span class="text-muted-foreground">90%</span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-secondary overflow-hidden">
+        <div class="h-full rounded-full bg-primary skill-progress w-0 transition-all duration-[1500ms] ease-out"
+             data-width="90%" style="transition-delay:300ms"></div>
+      </div>
+    </div>                      </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Feedback & Contact Form -->
+    <section id="contact" class="py-16 md:py-24 bg-accent/30 border-t">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="bg-card border rounded-2xl p-8 sm:p-12 shadow-sm relative overflow-hidden">
+           <!-- Subtle decor -->
+           <div class="absolute -top-24 -right-24 h-48 w-48 bg-primary/5 rounded-full blur-3xl"></div>
+
+           <div class="text-center space-y-2 mb-10 relative z-10">
+             <h2 class="text-3xl font-bold tracking-tight">Leave a Feedback / Contact</h2>
+             <p class="text-muted-foreground">We respond diligently to all inquiries.</p>
+           </div>
+           
+           <form action="includes/process.php" method="POST" class="space-y-6 relative z-10">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="name" class="text-sm font-medium leading-none text-foreground">Your Name</label>
+                  <input type="text" id="name" name="name" class="flex h-10 w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="John Doe" required>
+                </div>
+                <div class="space-y-2">
+                  <label for="business" class="text-sm font-medium leading-none text-foreground">Email Address</label>
+                  <input type="email" id="business" name="business" class="flex h-10 w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="john@example.com" required>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <label for="project" class="text-sm font-medium leading-none text-foreground">How can we help?</label>
+                <textarea id="project" name="project" class="flex min-h-[120px] w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Tell us about your project or leave feedback..." required></textarea>
+              </div>
+
+              <!-- Rating Component -->
+              <div class="space-y-2">
+                 <label class="text-sm font-medium leading-none text-foreground">Optional Rating</label>
+                 <div class="flex items-center gap-1 star-rating cursor-pointer">
+                    <input type="hidden" name="rating" id="rating-value" value="5">
+                    <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                 </div>
+              </div>
+              
+              <button class="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11">
+                Send Message
+              </button>
+           </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reusable Footer -->
+  <footer class="border-t bg-background relative z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <!-- Brand & Description -->
+      <div class="md:col-span-2 space-y-4">
+        <a href="index.php" class="flex items-center">
+          <img src="image/Logo2.png" alt="CAZTech Logo" class="h-28 w-auto object-contain">
+        </a>
+        <p class="text-sm text-muted-foreground leading-relaxed max-w-sm">
+          A team of dedicated software developers focused on building performant web applications, modern systems, and scalable digital solutions for businesses.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="space-y-4">
+        <h4 class="text-sm font-semibold tracking-tight">Quick Links</h4>
+        <ul class="space-y-3 pl-0 list-none">
+          <li><a href="index.php#services" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Services</a></li>
+          <li><a href="index.php#projects" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Projects</a></li>
+          <li><a href="index.php#about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Connect -->
+      <div class="space-y-4">
+        <h4 class="text-sm font-semibold tracking-tight">Connect</h4>
+        <ul class="space-y-3 pl-0 list-none">
+          <li>
+            <a href="https://www.facebook.com/caztechsolutions.works" target="_blank"
+               class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group">
+              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+              Facebook
+              <svg class="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="index.php#contact" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Send an Email</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 pb-4">
+      <p class="text-sm text-muted-foreground">&copy; 2026 CAZTech Solutions. All rights reserved.</p>
+
+      <div class="flex items-center gap-4">
+        <p class="text-sm text-muted-foreground flex items-center gap-1">
+          Built with
+          <svg class="h-4 w-4 text-red-500 fill-red-500" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          in Bulacan, PH
+        </p>
+        <!-- Admin link (matching padilla footer pattern) -->
+        <a href="/CAZTECH/admin/index.php"
+           class="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2 hover:underline-offset-4 relative z-20 cursor-pointer">
+          Admin
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Same Floating AI Assistant but themed precisely -->
+<div class="fixed bottom-6 right-6 z-40 pointer-events-none">
+<div class="pointer-events-auto">
+    <div id="ai-chat-window" class="opacity-0 translate-y-4 pointer-events-none transition-all duration-300 transform mb-4 w-[340px] bg-card border rounded-xl shadow-xl overflow-hidden flex flex-col origin-bottom-right">
+        <!-- Header -->
+        <div class="bg-primary p-4 text-primary-foreground flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-background/20 rounded-full flex items-center justify-center backdrop-blur-sm border-white/10 border">
+                    <svg class="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm leading-none">CAZ Assistant</h4>
+                    <p class="text-[11px] text-primary-foreground/70 mt-1">AI Powered Support</p>
+                </div>
+            </div>
+            <button id="ai-chat-close" class="text-primary-foreground/70 hover:text-primary-foreground transition-colors rounded-sm opacity-70 ring-offset-background hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+        
+        <!-- Body bg-muted/50 -->
+        <div class="p-4 h-72 overflow-y-auto bg-muted/30 flex flex-col gap-4">
+            <div class="flex gap-3">
+                <div class="w-8 h-8 rounded-full bg-white flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm overflow-hidden border">
+                    <img src="image/Logo1.png" alt="C" class="w-full h-full object-cover">
+                </div>
+                <div class="bg-card border p-3 rounded-2xl rounded-tl-sm text-sm text-foreground shadow-sm leading-relaxed">
+                    Hello! I'm the CAZTech AI Assistant. How can I help you regarding our services, tech stack, or portfolio?
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-2 mt-1 ml-10">
+                <button class="text-left text-xs bg-card border border-primary/20 hover:border-primary/50 text-foreground px-3 py-2 rounded-lg transition-all shadow-sm active:scale-95 group">
+                    <span class="group-hover:text-primary transition-colors">View Portfolio Projects</span>
+                </button>
+                <button class="text-left text-xs bg-card border border-primary/20 hover:border-primary/50 text-foreground px-3 py-2 rounded-lg transition-all shadow-sm active:scale-95 group">
+                    <span class="group-hover:text-primary transition-colors">What is your tech stack?</span>
+                </button>
+                <button class="text-left text-xs bg-card border border-primary/20 hover:border-primary/50 text-foreground px-3 py-2 rounded-lg transition-all shadow-sm active:scale-95 group">
+                    <span class="group-hover:text-primary transition-colors">Contact information</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Input -->
+        <div class="p-3 bg-card border-t flex gap-2">
+            <input type="text" placeholder="Ask anything about our service..." class="flex h-10 w-full rounded-full border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all">
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 flex-shrink-0 active:scale-95">
+                <svg class="h-4 w-4 ml-0.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Bubble Button -->
+    <button id="ai-chat-toggle" class="h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center float-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group border border-primary-foreground/10">
+        <svg class="h-6 w-6 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+    </button>
+</div>
+</div>
+
+<!-- Main Scripts -->
+<script src="assets/js/main.js?v=1786593575"></script>
+
+  <!-- ── Logo Lightbox Modal ─────────────────────────────────── -->
+  <div id="logo-lightbox"
+       class="fixed inset-0 z-[999] flex items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-300"
+       role="dialog" aria-modal="true" aria-label="Logo preview">
+
+    <!-- Backdrop -->
+    <div id="lightbox-backdrop" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+    <!-- Panel -->
+    <div id="lightbox-panel"
+         class="relative z-10 flex flex-col items-center gap-6 max-w-3xl w-full mx-4 bg-card border rounded-3xl shadow-2xl p-8 sm:p-10 transform scale-90 transition-transform duration-300">
+
+      <!-- Close button -->
+      <button id="lightbox-close"
+              class="absolute top-4 right-4 h-8 w-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-muted-foreground hover:text-background transition-colors"
+              aria-label="Close" tabindex="-1">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Logo image -->
+      <img id="lightbox-img" src="" alt="" class="max-h-[65vh] w-auto max-w-full object-contain rounded-2xl shadow-md">
+
+      <!-- Caption -->
+      <div class="text-center space-y-1">
+        <p id="lightbox-caption" class="text-lg font-bold"></p>
+        <p id="lightbox-category" class="text-xs font-semibold text-primary tracking-wider uppercase"></p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

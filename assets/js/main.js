@@ -1,15 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ── 1. Theme Toggle ────────────────────────────────────────────────────
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const darkIcon       = document.getElementById('theme-toggle-dark-icon');
-    const lightIcon      = document.getElementById('theme-toggle-light-icon');
+    const themeButtons = [
+        document.getElementById('theme-toggle'),
+        document.getElementById('theme-toggle-mobile')
+    ].filter(Boolean);
+
+    const themeIconPairs = [
+        {
+            dark: document.getElementById('theme-toggle-dark-icon'),
+            light: document.getElementById('theme-toggle-light-icon')
+        },
+        {
+            dark: document.getElementById('theme-toggle-mobile-dark-icon'),
+            light: document.getElementById('theme-toggle-mobile-light-icon')
+        }
+    ];
 
     function applyThemeIcons() {
         const isDark = document.documentElement.classList.contains('dark');
-        // moon (darkIcon) should be hidden if it's already dark
-        // sun (lightIcon) should be hidden if it's already light
-        darkIcon?.classList.toggle('hidden', isDark);
-        lightIcon?.classList.toggle('hidden', !isDark);
+        themeIconPairs.forEach(({ dark, light }) => {
+            // Show the sun in dark mode and the moon in light mode.
+            dark?.classList.toggle('hidden', isDark);
+            light?.classList.toggle('hidden', !isDark);
+        });
     }
 
     function toggleTheme() {
@@ -19,14 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         applyThemeIcons();
     }
 
-    if (themeToggleBtn) {
+    if (themeButtons.length) {
         applyThemeIcons();
-        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeButtons.forEach(button => button.addEventListener('click', toggleTheme));
     }
-
-    // Mobile theme toggle (separate button in mobile header)
-    const mobileThemeBtn = document.getElementById('theme-toggle-mobile');
-    mobileThemeBtn?.addEventListener('click', toggleTheme);
 
     // ── 2. Mobile Menu Toggle ──────────────────────────────────────────────
     const mobileMenuBtn  = document.getElementById('mobile-menu-btn');
@@ -365,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typingDiv.className = 'flex gap-3';
         typingDiv.innerHTML = `
             <div class="w-8 h-8 rounded-full bg-white flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm overflow-hidden border">
-                <img src="image/Logo1.png" alt="C" class="w-full h-full object-cover">
+                <img src="image/CAZTECH.png" alt="C" class="w-full h-full object-contain p-1">
             </div>
             <div class="bg-card border px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
                 <div class="flex gap-1">
@@ -392,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             responseDiv.className = 'flex gap-3';
             responseDiv.innerHTML = `
                 <div class="w-8 h-8 rounded-full bg-white flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm overflow-hidden border">
-                    <img src="image/Logo1.png" alt="C" class="w-full h-full object-cover">
+                    <img src="image/CAZTECH.png" alt="C" class="w-full h-full object-contain p-1">
                 </div>
                 <div class="bg-card border p-3 rounded-2xl rounded-tl-sm text-sm text-foreground shadow-sm leading-relaxed max-w-[85%]">
                     ${message}

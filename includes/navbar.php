@@ -23,22 +23,52 @@ $_nav_root = (isset($_root) ? $_root : '');
     <!-- Logo -->
     <a href="<?php echo $_nav_root; ?>index.php"
        class="flex items-center group transition-transform hover:scale-105 active:scale-95 duration-200">
-      <img src="<?php echo $_nav_root; ?>image/Logo1.png"
+      <img src="<?php echo $_nav_root; ?>image/CAZTECH.png"
            alt="CAZTech Logo"
-           class="h-28 w-auto object-contain">
+           class="h-14 sm:h-16 w-auto max-w-[280px] object-contain"
+           style="transform: scale(1.5) !important; transform-origin: left center;">
     </a>
 
     <!-- Desktop Navigation Links -->
     <div class="hidden md:flex items-center gap-1">
+      <!-- Theme Toggle: restored beside Services -->
+      <button id="theme-toggle" type="button"
+              class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Toggle theme">
+        <svg id="theme-toggle-dark-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+        <svg id="theme-toggle-light-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 18.66l-1.41 1.41"/>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+
       <?php nav_link($_nav_root . 'index.php#services', 'Services'); ?>
+
       <?php nav_link($_nav_root . 'index.php#projects', 'Projects'); ?>
       <?php nav_link($_nav_root . 'index.php#about', 'About'); ?>
       <?php nav_link($_nav_root . 'index.php#contact', 'Contact'); ?>
 
     </div>
 
-    <!-- Mobile: right side (theme + hamburger) -->
+    <!-- Mobile: theme + hamburger -->
     <div class="md:hidden flex items-center gap-1">
+      <!-- Theme Toggle -->
+      <button id="theme-toggle-mobile" type="button"
+              class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Toggle theme">
+        <svg id="theme-toggle-mobile-dark-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+        <svg id="theme-toggle-mobile-light-icon" class="hidden h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2m-4.93-7.07-1.41 1.41M6.34 18.66l-1.41 1.41"/>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+
       <!-- Hamburger Button -->
       <button id="mobile-menu-btn" type="button"
               class="inline-flex items-center justify-center rounded-md h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors"

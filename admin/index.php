@@ -133,7 +133,7 @@ $login_time  = isset($_SESSION['caztech_login_time'])
   <nav class="navbar px-4 py-3 nav-top sticky-top">
     <div class="container-fluid" style="max-width:1100px; margin:auto;">
       <div class="d-flex align-items-center gap-3">
-        <img src="../image/Logo1.png" alt="CAZTech" style="height:36px; object-fit:contain;">
+        <img src="../image/CAZTECH.png" alt="CAZTech" style="height:36px; object-fit:contain;">
         <span class="text-muted fw-medium" style="font-size:0.85rem;">Admin Panel</span>
       </div>
       <div class="d-flex align-items-center gap-3">

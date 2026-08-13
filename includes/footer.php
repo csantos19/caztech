@@ -8,7 +8,7 @@ $_foot_root = (isset($_root) ? $_root : '');
       <!-- Brand & Description -->
       <div class="md:col-span-2 space-y-4">
         <a href="<?php echo $_foot_root; ?>index.php" class="flex items-center">
-          <img src="<?php echo $_foot_root; ?>image/Logo2.png" alt="CAZTech Logo" class="h-28 w-auto object-contain">
+          <img src="<?php echo $_foot_root; ?>image/CAZTECH.png" alt="CAZTech Logo" class="h-16 sm:h-20 w-auto max-w-[280px] object-contain">
         </a>
         <p class="text-sm text-muted-foreground leading-relaxed max-w-sm">
           A team of dedicated software developers focused on building performant web applications, modern systems, and scalable digital solutions for businesses.
@@ -94,7 +94,7 @@ $_foot_root = (isset($_root) ? $_root : '');
         <div class="p-4 h-72 overflow-y-auto bg-muted/30 flex flex-col gap-4">
             <div class="flex gap-3">
                 <div class="w-8 h-8 rounded-full bg-white flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm overflow-hidden border">
-                    <img src="image/Logo1.png" alt="C" class="w-full h-full object-cover">
+                    <img src="image/CAZTECH.png" alt="C" class="w-full h-full object-contain p-1">
                 </div>
                 <div class="bg-card border p-3 rounded-2xl rounded-tl-sm text-sm text-foreground shadow-sm leading-relaxed">
                     Hello! I'm the CAZTech AI Assistant. How can I help you regarding our services, tech stack, or portfolio?

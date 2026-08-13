@@ -15,9 +15,9 @@ if ($_depth <= 1) $_root = '';
   <meta name="description" content="<?php echo htmlspecialchars($_head_desc); ?>" />
 
   <script>
-    // Force Padilla Dark Mode
-    document.documentElement.classList.add('dark');
-    localStorage.setItem('theme', 'dark');
+    // Use the saved preference; default to dark mode for first-time visitors.
+    const savedTheme = localStorage.getItem('theme');
+    document.documentElement.classList.toggle('dark', savedTheme !== 'light');
   </script>
 
   <!-- Tailwind Configuration -->
@@ -131,6 +131,31 @@ if ($_depth <= 1) $_root = '';
       background-color: hsl(var(--background));
       color: hsl(var(--foreground));
       font-family: 'Geist', 'Inter', sans-serif;
+    }
+
+    /* Keep contact-form labels and controls readable in both themes. */
+    #contact label,
+    #contact input:not([type="hidden"]),
+    #contact textarea {
+      background-color: hsl(var(--background));
+      border-color: hsl(var(--input));
+      color: hsl(var(--foreground));
+      -webkit-text-fill-color: hsl(var(--foreground));
+    }
+
+    .dark #contact input:not([type="hidden"]),
+    .dark #contact textarea {
+      background-color: hsl(var(--secondary)) !important;
+      border-color: hsl(var(--border)) !important;
+      color: hsl(var(--foreground)) !important;
+      -webkit-text-fill-color: hsl(var(--foreground)) !important;
+    }
+
+    #contact input::placeholder,
+    #contact textarea::placeholder {
+      color: hsl(var(--muted-foreground)) !important;
+      -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+      opacity: 1;
     }
 
     * {

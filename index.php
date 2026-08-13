@@ -68,7 +68,7 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
               
               <!-- Avatar Box -->
               <div class="h-64 w-64 sm:h-80 sm:w-80 rounded-3xl bg-card flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-border/50 relative overflow-hidden group-hover:-translate-y-2 transition-transform duration-500">
-                  <img src="image/Logo1.png" alt="CAZTech" class="w-full h-auto max-w-[300%] relative z-10 transition-transform duration-500 group-hover:scale-110">
+                  <img src="image/CAZTECH.png" alt="CAZTech" class="w-full h-auto max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-110">
               </div>
             </div>
           </div>
@@ -340,23 +340,23 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
            <form action="includes/process.php" method="POST" class="space-y-6 relative z-10">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label for="name" class="text-sm font-medium leading-none">Your Name</label>
-                  <input type="text" id="name" name="name" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="John Doe" required>
+                  <label for="name" class="text-sm font-medium leading-none text-foreground">Your Name</label>
+                  <input type="text" id="name" name="name" class="flex h-10 w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="John Doe" required>
                 </div>
                 <div class="space-y-2">
-                  <label for="business" class="text-sm font-medium leading-none">Email Address</label>
-                  <input type="email" id="business" name="business" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="john@example.com" required>
+                  <label for="business" class="text-sm font-medium leading-none text-foreground">Email Address</label>
+                  <input type="email" id="business" name="business" class="flex h-10 w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="john@example.com" required>
                 </div>
               </div>
               
               <div class="space-y-2">
-                <label for="project" class="text-sm font-medium leading-none">How can we help?</label>
-                <textarea id="project" name="project" class="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Tell us about your project or leave feedback..." required></textarea>
+                <label for="project" class="text-sm font-medium leading-none text-foreground">How can we help?</label>
+                <textarea id="project" name="project" class="flex min-h-[120px] w-full rounded-md border border-input bg-background dark:bg-slate-800 text-foreground dark:border-slate-600 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Tell us about your project or leave feedback..." required></textarea>
               </div>
 
               <!-- Rating Component -->
               <div class="space-y-2">
-                 <label class="text-sm font-medium leading-none">Optional Rating</label>
+                 <label class="text-sm font-medium leading-none text-foreground">Optional Rating</label>
                  <div class="flex items-center gap-1 star-rating cursor-pointer">
                     <input type="hidden" name="rating" id="rating-value" value="5">
                     <svg class="w-6 h-6 text-yellow-400 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>

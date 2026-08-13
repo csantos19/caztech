@@ -61,7 +61,7 @@ $page_title = 'Add Project | CAZTech Admin';
   <header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="index.php" class="flex items-center gap-2">
-        <img src="../image/Logo1.png" alt="CAZTech" class="h-10 w-auto object-contain mix-blend-multiply dark:filter dark:invert dark:brightness-200">
+        <img src="../image/CAZTECH.png" alt="CAZTech" class="h-10 w-auto object-contain">
         <span class="text-xs text-muted-foreground font-medium">Admin Panel</span>
       </a>
       <a href="projects.php" class="text-sm font-medium hover:text-primary transition-colors">← Back to Projects</a>
