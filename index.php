@@ -229,29 +229,55 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-16 md:py-24">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center space-y-4 mb-10">
-          <h2 class="text-3xl font-bold tracking-tight">My Projects</h2>
-          <p class="text-muted-foreground max-w-2xl mx-auto">Explore the custom systems, scalable architectures, and beautiful responsive interfaces we’ve developed.</p>
+    <section id="projects" class="relative overflow-hidden py-20 md:py-28">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-primary/[0.08] to-transparent"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-2xl space-y-4">
+            <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+              Selected work
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">My Projects</h2>
+            <p class="text-muted-foreground leading-relaxed">A closer look at the systems, interfaces, and digital experiences CAZTech builds for ambitious teams.</p>
+          </div>
+          <div id="project-count" class="inline-flex w-fit items-center rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm">
+            Loading projects...
+          </div>
         </div>
 
-        <!-- Filter Pill Structure -->
-        <div class="flex flex-wrap justify-center gap-2 mb-10" id="project-filters">
-          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 active" data-filter="all">All</button>
-          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Web Development">Web Development</button>
-          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Business Systems">Business Systems</button>
-          <button class="filter-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2" data-filter="Mobile Apps">Mobile Apps</button>
+        <div class="mb-8 flex flex-col gap-4 border-b border-border/60 pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-wrap items-center gap-2" id="project-filters" aria-label="Filter projects">
+            <button type="button" class="filter-btn inline-flex items-center gap-2 rounded-full border border-primary bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm" data-filter="all" aria-pressed="true">
+              <span>All projects</span>
+              <span class="filter-count rounded-full bg-primary-foreground/15 px-2 py-0.5 text-xs">—</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between gap-3 sm:justify-end">
+            <p id="project-filter-status" class="text-sm text-muted-foreground">Loading categories...</p>
+            <div class="flex items-center gap-2" role="group" aria-label="Project carousel controls">
+              <button id="projects-prev" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/70 text-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label="Previous projects" disabled>
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button id="projects-next" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/70 text-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label="Next projects">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="projects-viewport" class="cursor-grab overflow-hidden rounded-[2rem] touch-pan-y" aria-label="Project carousel">
+          <div id="projects-container" class="flex gap-5 touch-pan-x transition-transform duration-500 ease-out will-change-transform" aria-live="polite" aria-busy="true">
             <?php
-          // ── Project Skeletons — rendered via reusable function ──
-          render_project_skeleton();
-          render_project_skeleton('hidden md:flex');
-          render_project_skeleton('hidden lg:flex');
-          ?>
+            // ── Project Skeletons — rendered via reusable function ──
+            $project_carousel_width = 'w-full shrink-0 sm:w-[calc(50%_-_0.625rem)] lg:w-[calc(33.333%_-_0.833rem)]';
+            render_project_skeleton($project_carousel_width);
+            render_project_skeleton($project_carousel_width);
+            render_project_skeleton($project_carousel_width);
+            ?>
+          </div>
         </div>
+        <div id="projects-dots" class="mt-6 flex min-h-2 items-center justify-center gap-2" aria-label="Project carousel pages"></div>
       </div>
     </section>
 
@@ -309,14 +335,14 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
           <?php
           // ── Skills — rendered via reusable function ──
           $skills = [
-              ['Frontend Dev (React, Tailwind)', 95, 0],
-              ['Backend Systems (PHP, Node)',    85, 150],
-              ['Architectural Design',           90, 300],
+              ['Frontend Dev (React, Tailwind)', 95, 0,   'bg-blue-500 dark:bg-blue-400'],
+              ['Backend Systems (PHP, Node)',    85, 150, 'bg-emerald-500 dark:bg-emerald-400'],
+              ['Architectural Design',           90, 300, 'bg-amber-500 dark:bg-amber-400'],
           ];
           ?>
           <div class="space-y-5">
             <?php foreach ($skills as $s): ?>
-              <?php render_skill($s[0], $s[1], $s[2]); ?>
+              <?php render_skill($s[0], $s[1], $s[2], $s[3]); ?>
             <?php endforeach; ?>
           </div>
         </div>

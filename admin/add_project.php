@@ -81,7 +81,7 @@ $page_title = 'Add Project | CAZTech Admin';
         </div>
       <?php endif; ?>
 
-      <form method="POST" enctype="multipart/form-data" class="space-y-6 rounded-xl border bg-card p-8 shadow-sm">
+      <form method="POST" enctype="multipart/form-data" class="admin-project-form space-y-6 rounded-xl border bg-card p-8 shadow-sm">
         <div class="grid grid-cols-1 gap-6">
 
           <!-- Project Title -->

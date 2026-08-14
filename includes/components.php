@@ -25,17 +25,19 @@ function render_stars(int $count = 5): void {
  * @param int    $pct       Percentage (0-100)
  * @param int    $delay_ms  CSS transition delay in milliseconds
  */
-function render_skill(string $name, int $pct, int $delay_ms = 0): void {
+function render_skill(string $name, int $pct, int $delay_ms = 0, string $color_class = 'bg-primary'): void {
     $delay_style = $delay_ms > 0 ? ' style="transition-delay:' . $delay_ms . 'ms"' : '';
+    $safe_name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $safe_color_class = htmlspecialchars($color_class, ENT_QUOTES, 'UTF-8');
     echo '
     <div class="space-y-2">
       <div class="flex justify-between items-center text-sm font-medium">
-        <span>' . htmlspecialchars($name) . '</span>
+        <span>' . $safe_name . '</span>
         <span class="text-muted-foreground">' . $pct . '%</span>
       </div>
-      <div class="h-2 w-full rounded-full bg-secondary overflow-hidden">
-        <div class="h-full rounded-full bg-primary skill-progress w-0 transition-all duration-[1500ms] ease-out"
-             data-width="' . $pct . '%"' . $delay_style . '></div>
+      <div class="h-2.5 w-full rounded-full bg-secondary/80 border border-border/60 overflow-hidden">
+        <div class="h-full rounded-full ' . $safe_color_class . ' skill-progress w-0 transition-all duration-[1500ms] ease-out shadow-sm"
+             data-width="' . $pct . '%" role="progressbar" aria-valuenow="' . $pct . '" aria-valuemin="0" aria-valuemax="100" aria-label="' . $safe_name . ' proficiency"' . $delay_style . '></div>
       </div>
     </div>';
 }

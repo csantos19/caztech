@@ -45,6 +45,23 @@ INSERT INTO `leads` (`id`, `name`, `business`, `project_type`, `created_at`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `testimonials`
+--
+
+CREATE TABLE `testimonials` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `business` varchar(255) DEFAULT NULL,
+  `role` varchar(100) DEFAULT NULL,
+  `review` text NOT NULL,
+  `rating` tinyint(3) unsigned NOT NULL DEFAULT 5,
+  `approved` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `projects`
 --
 
@@ -111,6 +128,13 @@ ALTER TABLE `projects`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `testimonials`
+--
+ALTER TABLE `testimonials`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_testimonials_approved_created` (`approved`,`created_at`);
+
+--
 -- Indexes for table `team_members`
 --
 ALTER TABLE `team_members`
@@ -131,6 +155,12 @@ ALTER TABLE `leads`
 --
 ALTER TABLE `projects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `testimonials`
+--
+ALTER TABLE `testimonials`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `team_members`

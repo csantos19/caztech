@@ -3,25 +3,49 @@ require_once '../includes/auth.php';
 require_auth();
 include '../includes/db_connect.php';
 
-// Handle approval
-if (isset($_GET['approve_id'])) {
-    $id = intval($_GET['approve_id']);
-    $conn->query("UPDATE testimonials SET approved = 1 WHERE id = $id");
-    header("Location: reviews.php?approved=1");
-    exit;
-}
+$testimonial_table_sql = "CREATE TABLE IF NOT EXISTS testimonials (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    business VARCHAR(255) DEFAULT NULL,
+    role VARCHAR(100) DEFAULT NULL,
+    review TEXT NOT NULL,
+    rating TINYINT UNSIGNED NOT NULL DEFAULT 5,
+    approved TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_testimonials_approved_created (approved, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
-// Handle deletion
-if (isset($_GET['delete_id'])) {
-    $id = intval($_GET['delete_id']);
-    $conn->query("DELETE FROM testimonials WHERE id = $id");
-    header("Location: reviews.php?deleted=1");
-    exit;
-}
+$table_error = '';
+$pending = null;
+$approved = null;
 
-// Fetch pending and approved
-$pending  = $conn->query("SELECT * FROM testimonials WHERE approved = 0 ORDER BY created_at DESC");
-$approved = $conn->query("SELECT * FROM testimonials WHERE approved = 1 ORDER BY created_at DESC");
+try {
+    $conn->query($testimonial_table_sql);
+
+    // Handle approval
+    if (isset($_GET['approve_id'])) {
+        $id = intval($_GET['approve_id']);
+        $conn->query("UPDATE testimonials SET approved = 1 WHERE id = $id");
+        header("Location: reviews.php?approved=1");
+        exit;
+    }
+
+    // Handle deletion
+    if (isset($_GET['delete_id'])) {
+        $id = intval($_GET['delete_id']);
+        $conn->query("DELETE FROM testimonials WHERE id = $id");
+        header("Location: reviews.php?deleted=1");
+        exit;
+    }
+
+    // Fetch pending and approved
+    $pending  = $conn->query("SELECT * FROM testimonials WHERE approved = 0 ORDER BY created_at DESC");
+    $approved = $conn->query("SELECT * FROM testimonials WHERE approved = 1 ORDER BY created_at DESC");
+} catch (Throwable $e) {
+    $table_error = 'Review storage is unavailable. Please import the database schema and try again.';
+    error_log('CAZTech reviews storage error: ' . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +76,12 @@ $approved = $conn->query("SELECT * FROM testimonials WHERE approved = 1 ORDER BY
   <?php if (isset($_GET['deleted'])): ?>
     <div class="alert alert-danger alert-dismissible fade show">Review deleted.<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
   <?php endif; ?>
+
+  <?php if ($table_error): ?>
+    <div class="alert alert-danger">
+      <?php echo htmlspecialchars($table_error, ENT_QUOTES, 'UTF-8'); ?>
+    </div>
+  <?php else: ?>
 
   <!-- Pending Reviews -->
   <div class="card mb-4">
@@ -123,6 +153,7 @@ $approved = $conn->query("SELECT * FROM testimonials WHERE approved = 1 ORDER BY
       <?php endif; ?>
     </div>
   </div>
+  <?php endif; ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

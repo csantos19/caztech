@@ -110,91 +110,400 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // ───────────────────────────────────────────────────────────────────────
 
-    // ── Project Filtering Setup ──────────────────────────────────────────
-    const filterButtons = document.querySelectorAll('#project-filters .filter-btn');
-    let allProjects = [];
+    // ?? Project Filtering & Showcase Rendering ?????????????????????????????
+    const projectFilters      = document.getElementById('project-filters');
+    const projectCount        = document.getElementById('project-count');
+    const projectFilterStatus = document.getElementById('project-filter-status');
+    const projectsViewport    = document.getElementById('projects-viewport');
+    const projectsPrev        = document.getElementById('projects-prev');
+    const projectsNext        = document.getElementById('projects-next');
+    const projectsDots        = document.getElementById('projects-dots');
+    let allProjects           = [];
+    let activeProjectFilter   = 'all';
+    let projectCarouselIndex  = 0;
 
-    function renderProjects(projects) {
-        projectsContainer.innerHTML = '';
-        if (projects.length === 0) {
-            projectsContainer.innerHTML = '<p class="text-muted-foreground col-span-full text-center">No projects found.</p>';
-            return;
-        }
-        projects.forEach(proj => {
-            // Icon: clickable if uploaded image, otherwise plain SVG
-            const hasImage = !!proj.icon_image;
-            const iconContent = hasImage
-                ? `<img src="${proj.icon_image}" alt="${proj.title}" class="w-10 h-10 object-contain">`
-                : (proj.icon_svg || `<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`);
+    const fallbackProjectIcon = '<svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
 
-            // Wrap in a button for accessibility+click only if there's a real image
-            const badgeTag    = hasImage ? 'button' : 'div';
-            const badgeAttrs  = hasImage
-                ? `type="button" data-img="${proj.icon_image}" data-title="${proj.title}" data-category="${proj.category}"
-                   class="w-16 h-16 ${proj.bg_class || 'bg-secondary'} rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-300 cursor-zoom-in hover:ring-2 hover:ring-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/70 project-logo-btn"`
-                : `class="w-16 h-16 ${proj.bg_class || 'bg-secondary'} rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-300"`;
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, character => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[character]));
+    }
 
-            const viewDetailsHref = proj.project_url ? proj.project_url : '#';
-            const viewDetailsTarget = proj.project_url ? 'target="_blank" rel="noopener noreferrer"' : '';
+    function projectCategory(value) {
+        return String(value ?? '').trim() || 'Uncategorized';
+    }
 
-            projectsContainer.innerHTML += `
-                <div class="bg-card text-card-foreground border border-border p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all group relative flex flex-col h-full hover:border-primary/50 project-card" data-category="${proj.category}">
-                    <${badgeTag} ${badgeAttrs}>
-                        ${iconContent}
-                    </${badgeTag}>
-                    <div class="flex-grow">
-                        <span class="text-xs font-bold text-primary tracking-wider uppercase mb-2 block">${proj.category}</span>
-                        <h3 class="text-xl font-bold mb-3">${proj.title}</h3>
-                        <p class="text-muted-foreground text-sm leading-relaxed">${proj.description || ''}</p>
-                    </div>
-                    <div class="mt-8 pt-6 border-t">
-                        <a href="${viewDetailsHref}" ${viewDetailsTarget} class="inline-flex items-center text-sm font-semibold text-primary gap-2 transition-all group-hover:gap-3">
-                            View Details
-                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </a>
-                    </div>
-                </div>
-            `;
-        });
+    function projectCategoryKey(value) {
+        return projectCategory(value).toLowerCase();
+    }
 
-        // Attach lightbox click handlers after DOM is populated
-        projectsContainer.querySelectorAll('.project-logo-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                openLightbox(btn.dataset.img, btn.dataset.title, btn.dataset.category);
-            });
+    function safeClassList(value, fallback = 'bg-secondary') {
+        const classes = String(value ?? '')
+            .trim()
+            .split(/\s+/)
+            .filter(token => /^[a-zA-Z0-9_:/\.\-%\[\]]+$/.test(token))
+            .slice(0, 6);
+        return classes.length ? classes.join(' ') : fallback;
+    }
+
+    function safeAssetUrl(value) {
+        const raw = String(value ?? '').trim();
+        return raw && !/^(?:javascript|data|vbscript):/i.test(raw) ? raw : '';
+    }
+
+    function safeProjectUrl(value) {
+        const raw = String(value ?? '').trim();
+        if (!raw || /^(?:javascript|data|vbscript):/i.test(raw)) return '';
+        return /^(?:https?:\/\/|\/|\.\/|\.\.\/|#)/i.test(raw) ? raw : '';
+    }
+
+    function safeIconSvg(value) {
+        const raw = String(value ?? '').trim();
+        if (!raw || !/^<svg[\s>]/i.test(raw) || /<script|on[a-z]+\s*=|javascript:/i.test(raw)) return '';
+        return raw;
+    }
+
+    function projectCarouselVisibleCount() {
+        if (window.innerWidth >= 1024) return 3;
+        if (window.innerWidth >= 640) return 2;
+        return 1;
+    }
+
+    function renderProjectDots(maxIndex) {
+        if (!projectsDots) return;
+        const pageCount = maxIndex >= 0 ? maxIndex + 1 : 0;
+        projectsDots.innerHTML = Array.from({ length: pageCount }, (_, index) =>
+            `<button type="button" data-carousel-index="${index}" class="h-2 rounded-full bg-muted-foreground/30 transition-all duration-300" aria-label="Go to project group ${index + 1}"></button>`
+        ).join('');
+        projectsDots.querySelectorAll('button').forEach(dot => {
+            dot.addEventListener('click', () => setProjectCarouselIndex(Number(dot.dataset.carouselIndex)));
         });
     }
 
-    // Filter button click handlers
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active button styling
-            filterButtons.forEach(b => {
-                b.classList.remove('bg-primary', 'text-primary-foreground');
-                b.classList.add('bg-background', 'border', 'border-input');
-            });
-            btn.classList.remove('bg-background', 'border', 'border-input');
-            btn.classList.add('bg-primary', 'text-primary-foreground');
+    function getProjectCarouselStep() {
+        const firstCard = projectsContainer?.querySelector('.project-card');
+        if (!firstCard) return 0;
+        const styles = getComputedStyle(projectsContainer);
+        const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+        return firstCard.getBoundingClientRect().width + gap;
+    }
 
-            // Filter projects
-            const filter = btn.dataset.filter;
-            const filteredProjects = filter === 'all' 
-                ? allProjects 
-                : allProjects.filter(p => p.category === filter);
-            renderProjects(filteredProjects);
+    function updateProjectCarousel(rebuildDots = false) {
+        if (!projectsContainer) return;
+        const cards = [...projectsContainer.querySelectorAll('.project-card')];
+        if (!cards.length) {
+            projectsContainer.style.transform = 'translate3d(0, 0, 0)';
+            if (projectsPrev) projectsPrev.disabled = true;
+            if (projectsNext) projectsNext.disabled = true;
+            if (rebuildDots) renderProjectDots(-1);
+            return;
+        }
+
+        const visibleCount = projectCarouselVisibleCount();
+        const maxIndex = Math.max(0, cards.length - visibleCount);
+        projectCarouselIndex = Math.max(0, Math.min(projectCarouselIndex, maxIndex));
+        const step = getProjectCarouselStep();
+        const offset = projectCarouselIndex * step;
+        projectsContainer.style.transform = `translate3d(-${offset}px, 0, 0)`;
+
+        if (rebuildDots || !projectsDots || projectsDots.children.length !== maxIndex + 1) {
+            renderProjectDots(maxIndex);
+        }
+        projectsPrev?.toggleAttribute('disabled', projectCarouselIndex <= 0);
+        projectsNext?.toggleAttribute('disabled', projectCarouselIndex >= maxIndex);
+        projectsPrev?.setAttribute('aria-disabled', String(projectCarouselIndex <= 0));
+        projectsNext?.setAttribute('aria-disabled', String(projectCarouselIndex >= maxIndex));
+        projectsDots?.querySelectorAll('button').forEach(dot => {
+            const active = Number(dot.dataset.carouselIndex) === projectCarouselIndex;
+            dot.classList.toggle('w-6', active);
+            dot.classList.toggle('w-2', !active);
+            dot.classList.toggle('bg-primary', active);
+            dot.classList.toggle('bg-muted-foreground/30', !active);
         });
+    }
+
+    function setProjectCarouselIndex(index) {
+        const cards = projectsContainer ? [...projectsContainer.querySelectorAll('.project-card')] : [];
+        const maxIndex = Math.max(0, cards.length - projectCarouselVisibleCount());
+        projectCarouselIndex = Math.max(0, Math.min(index, maxIndex));
+        updateProjectCarousel();
+    }
+
+    function emptyProjectsMarkup(title, message, isError = false) {
+        const icon = isError
+            ? '<svg class="h-7 w-7 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m0 3.75h.008M10.29 3.86 1.82 18a2 2 0 001.72 3h16.92a2 2 0 001.72-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>'
+            : '<svg class="h-7 w-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7.5A2.5 2.5 0 016.5 5h11A2.5 2.5 0 0120 7.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 16.5v-9zM8 9h8m-8 3h5"/></svg>';
+        const titleClass = isError ? 'text-destructive' : 'text-foreground';
+        return `<div class="w-full shrink-0 rounded-3xl border border-dashed border-border/80 bg-card/50 px-6 py-14 text-center">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">${icon}</div>
+            <h3 class="mt-5 text-lg font-bold ${titleClass}">${escapeHtml(title)}</h3>
+            <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">${escapeHtml(message)}</p>
+        </div>`;
+    }
+
+    function setFilterButtonState(button, isActive) {
+        const count = button.querySelector('.filter-count');
+        button.setAttribute('aria-pressed', String(isActive));
+        button.classList.toggle('border-primary', isActive);
+        button.classList.toggle('bg-primary', isActive);
+        button.classList.toggle('text-primary-foreground', isActive);
+        button.classList.toggle('shadow-sm', isActive);
+        button.classList.toggle('border-border/70', !isActive);
+        button.classList.toggle('bg-background/70', !isActive);
+        button.classList.toggle('text-foreground', !isActive);
+        button.classList.toggle('hover:bg-accent', !isActive);
+        button.classList.toggle('hover:text-accent-foreground', !isActive);
+        count?.classList.toggle('bg-primary-foreground/15', isActive);
+        count?.classList.toggle('text-primary-foreground', isActive);
+        count?.classList.toggle('bg-muted', !isActive);
+        count?.classList.toggle('text-muted-foreground', !isActive);
+    }
+
+    function updateProjectStatus(visibleProjects = allProjects) {
+        const total = allProjects.length;
+        const visible = visibleProjects.length;
+        if (projectCount) {
+            projectCount.textContent = total === 0
+                ? 'No projects yet'
+                : `${total} ${total === 1 ? 'project' : 'projects'} available`;
+        }
+        if (projectFilterStatus) {
+            projectFilterStatus.textContent = activeProjectFilter === 'all'
+                ? `Showing all ${visible} ${visible === 1 ? 'project' : 'projects'}`
+                : `Showing ${visible} ${visible === 1 ? 'project' : 'projects'} in this category`;
+        }
+    }
+
+    function applyProjectFilter(filterKey) {
+        activeProjectFilter = filterKey;
+        const visibleProjects = filterKey === 'all'
+            ? allProjects
+            : allProjects.filter(project => projectCategoryKey(project.category) === filterKey);
+        projectFilters?.querySelectorAll('.filter-btn').forEach(button => {
+            setFilterButtonState(button, button.dataset.filter === activeProjectFilter);
+        });
+        renderProjects(visibleProjects);
+        updateProjectStatus(visibleProjects);
+    }
+
+    function renderProjectFilters(projects) {
+        if (!projectFilters) return;
+        const categoryMap = new Map();
+        projects.forEach(project => {
+            const label = projectCategory(project.category);
+            const key = projectCategoryKey(label);
+            if (!categoryMap.has(key)) categoryMap.set(key, { label, count: 0 });
+            categoryMap.get(key).count += 1;
+        });
+
+        projectFilters.innerHTML = '';
+        const allButton = document.createElement('button');
+        allButton.type = 'button';
+        allButton.dataset.filter = 'all';
+        allButton.className = 'filter-btn inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+        allButton.innerHTML = `<span>All projects</span><span class="filter-count rounded-full px-2 py-0.5 text-xs">${projects.length}</span>`;
+        allButton.addEventListener('click', () => applyProjectFilter('all'));
+        projectFilters.appendChild(allButton);
+
+        [...categoryMap.entries()]
+            .sort((a, b) => a[1].label.localeCompare(b[1].label))
+            .forEach(([key, category]) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.dataset.filter = key;
+                button.className = 'filter-btn inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+                button.innerHTML = `<span>${escapeHtml(category.label)}</span><span class="filter-count rounded-full px-2 py-0.5 text-xs">${category.count}</span>`;
+                button.addEventListener('click', () => applyProjectFilter(key));
+                projectFilters.appendChild(button);
+                setFilterButtonState(button, false);
+            });
+
+        setFilterButtonState(allButton, true);
+    }
+
+    function renderProjects(projects) {
+        if (!projectsContainer) return;
+        projectsContainer.setAttribute('aria-busy', 'false');
+        if (!projects.length) {
+            projectsContainer.innerHTML = emptyProjectsMarkup(
+                activeProjectFilter === 'all' ? 'Projects are on the way' : 'No projects in this category',
+                activeProjectFilter === 'all' ? 'Our latest work will appear here soon.' : 'Try another category to explore more CAZTech work.'
+            );
+            projectCarouselIndex = 0;
+            updateProjectCarousel(true);
+            return;
+        }
+
+        projectsContainer.innerHTML = projects.map((project, index) => {
+            const title = String(project.title ?? '').trim() || 'Untitled project';
+            const category = projectCategory(project.category);
+            const description = String(project.description ?? '').trim() || 'A tailored digital solution built by CAZTech.';
+            const imageUrl = safeAssetUrl(project.icon_image);
+            const hasImage = Boolean(imageUrl);
+            const isFeatured = index === 0;
+            const bgClass = safeClassList(project.bg_class);
+            const iconSvg = safeIconSvg(project.icon_svg) || fallbackProjectIcon;
+            const projectUrl = safeProjectUrl(project.project_url);
+            const cardWidth = 'w-full shrink-0 sm:w-[calc(50%_-_0.625rem)] lg:w-[calc(33.333%_-_0.833rem)]';
+            const visualLayout = 'flex-col';
+            const visualWidth = 'min-h-[12rem]';
+            const logoSize = 'h-20 w-20 sm:h-24 sm:w-24';
+            const iconContent = hasImage
+                ? `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)} logo" class="h-full w-full object-contain">`
+                : iconSvg;
+            const logoPreview = hasImage
+                ? `<button type="button" data-img="${escapeHtml(imageUrl)}" data-title="${escapeHtml(title)}" data-category="${escapeHtml(category)}" class="project-logo-btn ${logoSize} cursor-zoom-in rounded-[2rem] border border-border/60 bg-background/70 p-5 shadow-xl backdrop-blur-sm transition-transform duration-300 hover:scale-105 hover:ring-2 hover:ring-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/70" aria-label="Preview ${escapeHtml(title)} logo">${iconContent}</button>`
+                : `<div class="${logoSize} flex items-center justify-center rounded-[2rem] border border-border/60 bg-background/70 p-5 shadow-xl backdrop-blur-sm">${iconContent}</div>`;
+            const linkLabel = projectUrl ? 'View live project' : 'Start a project';
+            const linkHref = projectUrl || '#contact';
+            const linkTarget = projectUrl ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+            return `<article class="${cardWidth} project-card group relative overflow-hidden rounded-3xl border border-border/80 bg-card/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10" data-category="${escapeHtml(projectCategoryKey(category))}">
+                <div class="${visualLayout} flex h-full">
+                    <div class="${visualWidth} relative overflow-hidden ${bgClass} p-6 sm:p-8">
+                        <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl"></div>
+                        <div class="relative z-10 flex h-full flex-col justify-between gap-8">
+                            <div class="flex items-center justify-between gap-3">
+                                <span class="inline-flex items-center rounded-full border border-border/60 bg-background/60 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-foreground/70 backdrop-blur-sm">${isFeatured ? 'Featured project' : 'Project showcase'}</span>
+                                ${hasImage ? '<span class="text-xs text-muted-foreground">Click logo to preview</span>' : ''}
+                            </div>
+                            <div class="flex items-end justify-between gap-4">
+                                ${logoPreview}
+                                <span class="text-6xl font-black tracking-tighter text-foreground/10">${String(index + 1).padStart(2, '0')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex min-w-0 flex-1 flex-col p-6 sm:p-8">
+                        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+                            <span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-primary">${escapeHtml(category)}</span>
+                            <span class="text-xs font-medium text-muted-foreground">CAZTech build</span>
+                        </div>
+                        <h3 class="text-xl font-bold tracking-tight">${escapeHtml(title)}</h3>
+                        <p class="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">${escapeHtml(description)}</p>
+                        <div class="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-border/70 pt-6">
+                            <span class="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground"><svg class="h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Built for impact</span>
+                            <a href="${escapeHtml(linkHref)}"${linkTarget} class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">${linkLabel}<svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </article>`;
+        }).join('');
+
+        projectsContainer.querySelectorAll('.project-logo-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                openLightbox(button.dataset.img, button.dataset.title, button.dataset.category);
+            });
+        });
+        projectCarouselIndex = 0;
+        updateProjectCarousel(true);
+    }
+
+    projectsPrev?.addEventListener('click', () => setProjectCarouselIndex(projectCarouselIndex - 1));
+    projectsNext?.addEventListener('click', () => setProjectCarouselIndex(projectCarouselIndex + 1));
+
+    let carouselPointerActive = false;
+    let carouselPointerId = null;
+    let carouselPointerStartX = 0;
+    let carouselPointerDeltaX = 0;
+    let carouselPointerMoved = false;
+    let carouselSuppressClick = false;
+
+    function finishCarouselPointer(event, cancelled = false) {
+        if (!carouselPointerActive || (event && event.pointerId !== carouselPointerId)) return;
+        if (!cancelled && event) carouselPointerDeltaX = event.clientX - carouselPointerStartX;
+        const shouldMove = !cancelled && Math.abs(carouselPointerDeltaX) >= 50;
+        const direction = carouselPointerDeltaX < 0 ? 1 : -1;
+        const pointerId = carouselPointerId;
+        carouselPointerActive = false;
+        carouselPointerId = null;
+        projectsViewport?.classList.remove('cursor-grabbing', 'select-none');
+        if (projectsContainer) projectsContainer.style.transition = '';
+        if (event && projectsViewport?.hasPointerCapture(pointerId)) {
+            projectsViewport.releasePointerCapture(pointerId);
+        }
+        if (carouselPointerMoved) {
+            carouselSuppressClick = true;
+        }
+        if (shouldMove) {
+            setProjectCarouselIndex(projectCarouselIndex + direction);
+        } else {
+            updateProjectCarousel();
+        }
+        if (carouselSuppressClick) {
+            window.setTimeout(() => { carouselSuppressClick = false; }, 0);
+        }
+    }
+
+    projectsViewport?.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        if (!projectsContainer?.querySelector('.project-card')) return;
+        carouselPointerActive = true;
+        carouselPointerId = event.pointerId;
+        carouselPointerStartX = event.clientX;
+        carouselPointerDeltaX = 0;
+        carouselPointerMoved = false;
+        projectsViewport.classList.add('cursor-grabbing', 'select-none');
+        projectsContainer.style.transition = 'none';
     });
 
+    projectsViewport?.addEventListener('pointermove', event => {
+        if (!carouselPointerActive || event.pointerId !== carouselPointerId) return;
+        carouselPointerDeltaX = event.clientX - carouselPointerStartX;
+        if (Math.abs(carouselPointerDeltaX) > 6) {
+            if (!carouselPointerMoved) {
+                carouselPointerMoved = true;
+                projectsViewport.setPointerCapture?.(event.pointerId);
+            }
+            event.preventDefault();
+        }
+        const step = getProjectCarouselStep();
+        if (!step) return;
+        const cards = [...projectsContainer.querySelectorAll('.project-card')];
+        const maxIndex = Math.max(0, cards.length - projectCarouselVisibleCount());
+        const atEdge = (projectCarouselIndex <= 0 && carouselPointerDeltaX > 0)
+            || (projectCarouselIndex >= maxIndex && carouselPointerDeltaX < 0);
+        const adjustedDelta = atEdge ? carouselPointerDeltaX * 0.35 : carouselPointerDeltaX;
+        const offset = (projectCarouselIndex * step) - adjustedDelta;
+        projectsContainer.style.transform = `translate3d(-${offset}px, 0, 0)`;
+    });
+
+    projectsViewport?.addEventListener('pointerup', event => finishCarouselPointer(event));
+    projectsViewport?.addEventListener('pointercancel', event => finishCarouselPointer(event, true));
+    projectsViewport?.addEventListener('click', event => {
+        if (!carouselSuppressClick) return;
+        event.preventDefault();
+        event.stopPropagation();
+        carouselSuppressClick = false;
+    }, true);
+    window.addEventListener('resize', () => updateProjectCarousel());
+
     if (projectsContainer) {
-        fetch('api/get_projects.php')
-            .then(res => res.json())
-            .then(projects => {
-                allProjects = projects; // Store for filtering
-                renderProjects(projects);
+        fetch('api/get_projects.php', { headers: { Accept: 'application/json' } })
+            .then(response => {
+                if (!response.ok) throw new Error(`Projects request failed with ${response.status}`);
+                return response.json();
             })
-            .catch(err => {
-                console.error('Error fetching projects:', err);
-                projectsContainer.innerHTML = '<p class="text-destructive col-span-full text-center">Failed to load projects.</p>';
+            .then(projects => {
+                allProjects = Array.isArray(projects) ? projects : [];
+                renderProjectFilters(allProjects);
+                renderProjects(allProjects);
+                updateProjectStatus(allProjects);
+            })
+            .catch(error => {
+                console.error('Error fetching projects:', error);
+                if (projectFilters) projectFilters.innerHTML = '';
+                if (projectsContainer) {
+                    projectsContainer.setAttribute('aria-busy', 'false');
+                    projectsContainer.innerHTML = emptyProjectsMarkup('Projects are temporarily unavailable', 'Please refresh the page or check back shortly.', true);
+                }
+                if (projectCount) projectCount.textContent = 'Unable to load projects';
+                if (projectFilterStatus) projectFilterStatus.textContent = 'Please try again later';
+                updateProjectCarousel(true);
             });
     }
 
@@ -286,8 +595,8 @@ document.addEventListener('DOMContentLoaded', () => {
         contact: {
             patterns: ['contact', 'email', 'phone', 'call', 'reach', 'message', 'send', 'form', 'talk to', 'speak'],
             responses: [
-                'You can reach us at **contact@caztechsolutions.works** or use the contact form at the bottom of the page. We typically respond within 24 hours! 📧',
-                'We\'d love to hear from you! 📩 Email: contact@caztechsolutions.works | Facebook: @caztechsolutions.works | Or fill out the contact form below. Expect a reply within 24 hours!'
+                'We\'d love to hear from you! 📩<br><strong>Email:</strong> <a href="mailto:contact@caztechsolutions.works" class="text-primary underline underline-offset-2 hover:opacity-80">contact@caztechsolutions.works</a><br><strong>Official Gmail:</strong> <a href="mailto:caztechsolutions.works@gmail.com" class="text-primary underline underline-offset-2 hover:opacity-80">caztechsolutions.works@gmail.com</a><br><strong>Christian\'s Gmail:</strong> <a href="mailto:Santoschristian50.works@gmail.com" class="text-primary underline underline-offset-2 hover:opacity-80">Santoschristian50.works@gmail.com</a><br><strong>Official Facebook:</strong> <a href="https://www.facebook.com/caztechsolutions.works" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">@caztechsolutions.works</a><br><strong>Team Facebook:</strong> <a href="https://www.facebook.com/kramzssis" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Christian</a> · <a href="https://www.facebook.com/anntricia.feliciano" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Anntricia</a> · <a href="https://www.facebook.com/ctrl.zild" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Zildjan</a><br>Or fill out the <a href="#contact" class="text-primary underline underline-offset-2 hover:opacity-80">contact form</a> below. We typically reply within <strong>24 hours</strong>! 📬',
+                'Contact CAZTech through our <a href="mailto:contact@caztechsolutions.works" class="text-primary underline underline-offset-2 hover:opacity-80">official email</a> or <strong>official Gmail:</strong> <a href="mailto:caztechsolutions.works@gmail.com" class="text-primary underline underline-offset-2 hover:opacity-80">caztechsolutions.works@gmail.com</a>.<br><strong>Christian\'s Gmail:</strong> <a href="mailto:Santoschristian50.works@gmail.com" class="text-primary underline underline-offset-2 hover:opacity-80">Santoschristian50.works@gmail.com</a><br><strong>Official Facebook:</strong> <a href="https://www.facebook.com/caztechsolutions.works" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">official Facebook page</a>.<br>You may also reach <a href="https://www.facebook.com/kramzssis" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Christian</a>, <a href="https://www.facebook.com/anntricia.feliciano" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Anntricia</a>, or <a href="https://www.facebook.com/ctrl.zild" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80">Zildjan</a>.<br>We are based in Bulacan, Philippines. 🇵🇭 You can also use the <a href="#contact" class="text-primary underline underline-offset-2 hover:opacity-80">contact form</a>; expect a reply within <strong>24 hours</strong>!'
             ]
         },
         team: {

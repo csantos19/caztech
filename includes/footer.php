@@ -55,16 +55,15 @@ $_foot_root = (isset($_root) ? $_root : '');
       <div class="flex items-center gap-4">
         <p class="text-sm text-muted-foreground flex items-center gap-1">
           Built with
-          <svg class="h-4 w-4 text-red-500 fill-red-500" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
+          <a href="<?php echo $_foot_root; ?>admin/index.php"
+             class="group inline-flex items-center rounded-sm text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+             title="Admin login" aria-label="Admin login">
+            <svg class="h-4 w-4 fill-red-500 transition-transform duration-200 group-hover:scale-110" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </a>
           in Bulacan, PH
         </p>
-        <!-- Admin link (matching padilla footer pattern) -->
-        <a href="/CAZTECH/admin/index.php"
-           class="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2 hover:underline-offset-4 relative z-20 cursor-pointer">
-          Admin
-        </a>
       </div>
     </div>
   </div>
