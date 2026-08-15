@@ -13,6 +13,7 @@ if ($_depth <= 1) $_root = '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title><?php echo htmlspecialchars($_head_title); ?></title>
   <meta name="description" content="<?php echo htmlspecialchars($_head_desc); ?>" />
+  <link rel="icon" type="image/png" href="<?php echo htmlspecialchars($_root . 'image/CAZTECH.png', ENT_QUOTES, 'UTF-8'); ?>">
 
   <script>
     // Use the saved preference; default to dark mode for first-time visitors.

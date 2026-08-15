@@ -55,6 +55,7 @@ if ($result) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../image/CAZTECH.png">
   <title>Manage Team - CAZTECH Admin</title>
 
   <!-- Bootstrap 5 -->
@@ -247,7 +248,10 @@ if ($result) {
                   <td><span class="role-badge"><?php echo htmlspecialchars($m['role']); ?></span></td>
                   <td class="text-end pe-4">
                     <div class="d-flex align-items-center justify-content-end gap-2">
-                      <a href="edit_team.php?id=<?php echo $m['id']; ?>" class="btn-action btn-edit" title="Edit">
+                      <a href="edit_profile.php?id=<?php echo $m['id']; ?>" class="btn-action btn-edit" title="Edit public profile">
+                        <i class="bi bi-person-badge"></i>
+                      </a>
+                      <a href="edit_team.php?id=<?php echo $m['id']; ?>" class="btn-action btn-edit" title="Edit member">
                         <i class="bi bi-pencil"></i>
                       </a>
 

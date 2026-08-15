@@ -99,6 +99,18 @@ CREATE TABLE `team_members` (
   `name` varchar(255) NOT NULL,
   `role` varchar(100) NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
+  `profile_headline` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `skills` text DEFAULT NULL,
+  `years_experience` varchar(50) DEFAULT NULL,
+  `projects_completed` varchar(50) DEFAULT NULL,
+  `clients_served` varchar(50) DEFAULT NULL,
+  `satisfaction_rate` varchar(50) DEFAULT NULL,
+  `github_url` varchar(255) DEFAULT NULL,
+  `facebook_url` varchar(255) DEFAULT NULL,
+  `linkedin_url` varchar(255) DEFAULT NULL,
+  `profile_email` varchar(255) DEFAULT NULL,
+  `resume_url` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -172,3 +184,66 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- Skills for Christian George Santos (`team_members.id` = 2).
+UPDATE `team_members`
+SET `skills` = '[Languages] PHP
+[Languages] JavaScript
+[Languages] HTML5
+[Languages] CSS3
+[Languages] SQL
+[Languages] JSON
+[Templates] Laravel Blade
+[Databases] MySQL / MariaDB
+[Databases] SQLite
+[Databases] Redis (Laravel realtime/cache configuration)
+[Backend] Laravel
+[Backend] Eloquent ORM / migrations
+[Backend] Laravel Sanctum
+[Backend] Laravel Breeze
+[Backend] Laravel Reverb / WebSockets
+[Backend] Laravel Echo / Pusher JS
+[Backend] MySQLi / PDO
+[Backend] REST APIs / AJAX
+[Backend] Sessions / authentication / role-based access
+[Frontend] Tailwind CSS
+[Frontend] Bootstrap
+[Frontend] Bootstrap Icons
+[Frontend] Alpine.js
+[Frontend] jQuery / jQuery UI / jQuery Validate
+[Frontend] jQuery DataTables
+[Frontend] jQuery Steps
+[Frontend] Datepicker
+[Frontend] Bootstrap Fileupload
+[Frontend] MetisMenu / MixItUp / PrettyPhoto
+[Frontend] FullCalendar
+[Frontend] ApexCharts
+[Frontend] Chart.js
+[Frontend] SweetAlert2
+[Frontend] Font Awesome
+[Frontend] Axios
+[Frontend] Turbo / Hotwire
+[Frontend] Dropzone / Flatpickr
+[Frontend] jsVectorMap / Swiper
+[Frontend] TailAdmin
+[Email] PHPMailer / SMTP
+[Reports] Dompdf / PDF generation
+[Reports] Laravel Excel / PhpSpreadsheet
+[Tooling] Composer
+[Tooling] Node.js / npm
+[Tooling] Vite / Laravel Vite
+[Tooling] Webpack / Babel
+[Tooling] PostCSS / Autoprefixer
+[Tooling] Prettier
+[Tooling] PHPUnit / Laravel Pint
+[Tooling] Laravel Artisan / Sail / Tinker
+[Tooling] PWA / Web App Manifest
+[Deployment] XAMPP / Apache
+[Deployment] phpMyAdmin
+[Deployment] InfinityFree / FTP / FileZilla
+[Tools] VS Code
+[Tools] Git / GitHub
+[Automation] Windows Batch / PowerShell / VBScript
+[Tools] Microsoft Excel'
+WHERE `id` = 2;

@@ -53,7 +53,7 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
                 <svg class="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 <span class="sr-only">Facebook</span>
               </a>
-              <a href="mailto:contact@caztechsolutions.works" class="h-10 w-10 flex items-center justify-center rounded-full border border-border/50 bg-background hover:bg-accent hover:text-primary transition-all shadow-sm group">
+              <a href="mailto:caztechsolutions.works@gmail.com" class="h-10 w-10 flex items-center justify-center rounded-full border border-border/50 bg-background hover:bg-accent hover:text-primary transition-all shadow-sm group">
                 <svg class="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 <span class="sr-only">Email</span>
               </a>
@@ -282,22 +282,22 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
     </section>
 
     <!-- Meet The Team Section -->
-    <section class="py-16 md:py-24 bg-accent/30 border-y">
+    <section id="team" class="py-16 md:py-24 bg-accent/30 border-y">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div class="text-center space-y-4">
           <h2 class="text-3xl font-bold tracking-tight">Meet the Team</h2>
           <p class="text-muted-foreground">The visionaries behind CAZTech core engine.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+        <div class="grid grid-cols-1 gap-8 max-w-3xl mx-auto" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));">
           <?php
           // ── Team Members — rendered via reusable function ──
-          $sql_team = "SELECT name, role, image_path FROM team_members ORDER BY id ASC";
+          $sql_team = "SELECT id, name, role, image_path FROM team_members ORDER BY id ASC";
           $res_team = $conn->query($sql_team);
 
           if ($res_team && $res_team->num_rows > 0) {
               while ($m = $res_team->fetch_assoc()) {
-                  render_team_member($m['name'], $m['role'], $m['image_path']);
+                  render_team_member($m['name'], $m['role'], $m['image_path'], (int) $m['id']);
               }
           } else {
               // Fallback placeholder team if db is empty

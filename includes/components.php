@@ -74,25 +74,33 @@ function render_testimonial(string $initials, string $name, string $role, string
  * @param string $role       Job role
  * @param string $image_path Optional path to uploaded photo
  */
-function render_team_member(string $name, string $role, string $image_path = ''): void {
-    $initial = htmlspecialchars(substr($name, 0, 1));
-    
+function render_team_member(string $name, string $role, string $image_path = '', int $member_id = 0): void {
+    $safe_name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $safe_role = htmlspecialchars($role, ENT_QUOTES, 'UTF-8');
+    $initial = htmlspecialchars(substr($name, 0, 1), ENT_QUOTES, 'UTF-8');
+    $profile_url = $member_id > 0 ? 'team_profile.php?id=' . $member_id : '';
+
     if (empty($image_path)) {
-        $avatar_content = $initial;
-        $div_start = '<div class="h-24 w-24 mx-auto rounded-full bg-secondary overflow-hidden mb-5 border-2 border-transparent group-hover:border-primary/40 transition-colors flex items-center justify-center font-bold text-2xl">';
-        $div_end = '</div>';
+        $avatar_content = '<span class="text-2xl font-bold">' . $initial . '</span>';
     } else {
-        $avatar_content = '<img src="' . htmlspecialchars($image_path) . '" alt="' . htmlspecialchars($name) . '" class="h-full w-full object-cover">';
-        $div_start = '<button type="button" data-img="' . htmlspecialchars($image_path) . '" data-title="' . htmlspecialchars($name) . '" data-category="' . htmlspecialchars($role) . '" class="team-photo-btn h-24 w-24 mx-auto block rounded-full bg-secondary overflow-hidden mb-5 border-2 border-transparent group-hover:border-primary/40 transition-transform hover:scale-110 cursor-zoom-in flex items-center justify-center font-bold text-2xl focus:outline-none focus:ring-2 focus:ring-primary/70">';
-        $div_end = '</button>';
+        $avatar_content = '<img src="' . htmlspecialchars($image_path, ENT_QUOTES, 'UTF-8') . '" alt="' . $safe_name . '" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">';
     }
 
-    echo '
-    <div class="group p-6 rounded-2xl border bg-card/50 text-card-foreground text-center transition-all duration-300 hover:shadow-xl hover:border-primary/20 backdrop-blur-sm">
-      ' . $div_start . $avatar_content . $div_end . '
-      <h3 class="font-bold text-lg">' . htmlspecialchars($name) . '</h3>
-      <div class="mt-2 text-xs text-muted-foreground">' . htmlspecialchars($role) . '</div>
-    </div>';
+    $card_start = $profile_url
+        ? '<a href="' . htmlspecialchars($profile_url, ENT_QUOTES, 'UTF-8') . '" aria-label="View profile of ' . $safe_name . '" class="group relative flex h-full flex-col rounded-2xl border bg-card/50 p-6 text-center text-card-foreground backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">'
+        : '<div class="group relative flex h-full flex-col rounded-2xl border bg-card/50 p-6 text-center text-card-foreground backdrop-blur-sm">';
+    $card_end = $profile_url ? '</a>' : '</div>';
+
+    echo $card_start;
+    echo '<div class="mx-auto mb-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-transparent bg-secondary font-bold transition-colors group-hover:border-primary/40">' . $avatar_content . '</div>';
+    echo '<h3 class="whitespace-nowrap text-base font-bold tracking-tight sm:text-[1.05rem]">' . $safe_name . '</h3>';
+    echo '<div class="mt-2 text-xs text-muted-foreground">' . $safe_role . '</div>';
+
+    if ($profile_url) {
+        echo '<span class="mt-5 inline-flex items-center justify-center gap-2 text-xs font-semibold text-primary transition-all group-hover:gap-3">View profile <span aria-hidden="true">→</span></span>';
+    }
+
+    echo $card_end;
 }
 
 /**
