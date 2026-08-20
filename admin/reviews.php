@@ -118,6 +118,25 @@ try {
     .card { border: none; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
     .star-gold { color: #f59e0b; }
     .star-empty { color: #d1d5db; }
+    .confirmation-dialog { width: calc(100% - 1.5rem); max-width: 440px; margin-right: auto; margin-left: auto; }
+    .confirmation-modal .modal-content { border: 0; border-radius: 22px; overflow: hidden; box-shadow: 0 1.5rem 3.5rem rgba(15, 23, 42, .24); }
+    .confirmation-modal .modal-header { border-bottom: 0; background: linear-gradient(135deg, #eff6ff, #f8fafc); padding: 1.35rem 1.45rem 1.1rem; }
+    .confirmation-modal .modal-body { padding: 1.25rem 1.45rem .65rem; color: #64748b; font-size: 1rem; line-height: 1.65; }
+    .confirmation-modal .modal-footer { border-top: 0; padding: 1.05rem 1.45rem 1.45rem; }
+    .confirmation-icon { width: 2.9rem; height: 2.9rem; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 15px; font-size: 1.2rem; }
+    .confirmation-icon.success { color: #047857; background: #d1fae5; }
+    .confirmation-icon.danger { color: #b91c1c; background: #fee2e2; }
+    .confirmation-modal .modal-title { color: #1e293b; font-size: 1.3rem; line-height: 1.25; }
+    .confirmation-modal .btn { min-height: 44px; padding: .6rem 1rem; border-radius: 11px; font-weight: 700; }
+    .confirmation-modal .btn-light { border: 1px solid #e2e8f0; color: #475569; }
+    .confirmation-modal .btn-light:hover { background: #f1f5f9; }
+    @media (max-width: 480px) {
+      .confirmation-dialog { width: calc(100% - 1rem); }
+      .confirmation-modal .modal-header { padding: 1.1rem 1.1rem .9rem; }
+      .confirmation-modal .modal-body { padding: 1.05rem 1.1rem .45rem; }
+      .confirmation-modal .modal-footer { padding: .9rem 1.1rem 1.1rem; }
+      .confirmation-modal .modal-footer .btn { flex: 1 1 0; }
+    }
   </style>
 </head>
 <body>
@@ -168,8 +187,8 @@ try {
                 </td>
                 <td><small><?php echo date('M j, Y', strtotime($r['created_at'])); ?></small></td>
                 <td class="text-center">
-                  <a href="?approve_id=<?php echo $r['id']; ?>" class="btn btn-sm btn-success me-1" onclick="return confirm('Approve this review?')"><i class="bi bi-check-lg"></i> Approve</a>
-                  <a href="?delete_id=<?php echo $r['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this review?')"><i class="bi bi-trash3"></i></a>
+                  <a href="?approve_id=<?php echo (int) $r['id']; ?>" class="btn btn-sm btn-success me-1" data-bs-toggle="modal" data-bs-target="#reviewActionModal" data-confirm-url="?approve_id=<?php echo (int) $r['id']; ?>" data-confirm-title="Approve this review?" data-confirm-message="This review from <?php echo htmlspecialchars((string) $r['name'], ENT_QUOTES, 'UTF-8'); ?> will become visible on the public site." data-confirm-label="Approve review" data-confirm-variant="success"><i class="bi bi-check-lg"></i> Approve</a>
+                  <a href="?delete_id=<?php echo (int) $r['id']; ?>" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewActionModal" data-confirm-url="?delete_id=<?php echo (int) $r['id']; ?>" data-confirm-title="Delete this review?" data-confirm-message="This will permanently remove the review from <?php echo htmlspecialchars((string) $r['name'], ENT_QUOTES, 'UTF-8'); ?>." data-confirm-label="Delete review" data-confirm-variant="danger" aria-label="Delete review from <?php echo htmlspecialchars((string) $r['name'], ENT_QUOTES, 'UTF-8'); ?>"><i class="bi bi-trash3"></i></a>
                 </td>
               </tr>
               <?php endwhile; ?>
@@ -200,7 +219,7 @@ try {
                 <td style="min-width:280px; max-width:420px; white-space:pre-wrap;"><?php echo htmlspecialchars((string) $lead['project_type'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><small><?php echo htmlspecialchars(date('M j, Y g:i A', strtotime((string) $lead['created_at'])), ENT_QUOTES, 'UTF-8'); ?></small></td>
                 <td class="text-center">
-                  <a href="?delete_lead_id=<?php echo (int) $lead['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this message?')" aria-label="Delete message from <?php echo htmlspecialchars((string) $lead['name'], ENT_QUOTES, 'UTF-8'); ?>"><i class="bi bi-trash3"></i></a>
+                  <a href="?delete_lead_id=<?php echo (int) $lead['id']; ?>" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewActionModal" data-confirm-url="?delete_lead_id=<?php echo (int) $lead['id']; ?>" data-confirm-title="Delete this message?" data-confirm-message="This will permanently remove the message from <?php echo htmlspecialchars((string) $lead['name'], ENT_QUOTES, 'UTF-8'); ?>." data-confirm-label="Delete message" data-confirm-variant="danger" aria-label="Delete message from <?php echo htmlspecialchars((string) $lead['name'], ENT_QUOTES, 'UTF-8'); ?>"><i class="bi bi-trash3"></i></a>
                 </td>
               </tr>
               <?php endwhile; ?>
@@ -235,7 +254,7 @@ try {
                 </td>
                 <td><small><?php echo date('M j, Y', strtotime($r['created_at'])); ?></small></td>
                 <td class="text-center">
-                  <a href="?delete_id=<?php echo $r['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this review?')"><i class="bi bi-trash3"></i></a>
+                  <a href="?delete_id=<?php echo (int) $r['id']; ?>" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewActionModal" data-confirm-url="?delete_id=<?php echo (int) $r['id']; ?>" data-confirm-title="Delete this review?" data-confirm-message="This will permanently remove the review from <?php echo htmlspecialchars((string) $r['name'], ENT_QUOTES, 'UTF-8'); ?>." data-confirm-label="Delete review" data-confirm-variant="danger" aria-label="Delete review from <?php echo htmlspecialchars((string) $r['name'], ENT_QUOTES, 'UTF-8'); ?>"><i class="bi bi-trash3"></i></a>
                 </td>
               </tr>
               <?php endwhile; ?>
@@ -248,6 +267,64 @@ try {
   <?php endif; ?>
 </div>
 
+<!-- Styled confirmation modal for review/message actions -->
+<div class="modal fade confirmation-modal" id="reviewActionModal" tabindex="-1" aria-labelledby="confirmation-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered confirmation-dialog">
+    <div class="modal-content">
+      <div class="modal-header align-items-start gap-3">
+        <div id="confirmation-icon" class="confirmation-icon danger" aria-hidden="true"><i class="bi bi-trash3"></i></div>
+        <div class="flex-grow-1">
+          <p class="mb-1 text-uppercase small fw-bold text-secondary" style="letter-spacing:.12em;">CAZTech Admin</p>
+          <h5 class="modal-title fw-bold mb-0" id="confirmation-title">Confirm action</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close confirmation"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0" id="confirmation-message">Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer gap-2">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+        <a id="confirmation-submit" href="#" class="btn btn-danger">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  (() => {
+    const modal = document.getElementById('reviewActionModal');
+    const title = document.getElementById('confirmation-title');
+    const message = document.getElementById('confirmation-message');
+    const submit = document.getElementById('confirmation-submit');
+    const icon = document.getElementById('confirmation-icon');
+
+    document.querySelectorAll('[data-bs-toggle="modal"][data-confirm-url]').forEach(trigger => {
+      trigger.addEventListener('click', event => event.preventDefault());
+    });
+
+    modal?.addEventListener('show.bs.modal', event => {
+      const trigger = event.relatedTarget;
+      if (!trigger) return;
+
+      const variant = trigger.getAttribute('data-confirm-variant') === 'success' ? 'success' : 'danger';
+      title.textContent = trigger.getAttribute('data-confirm-title') || 'Confirm action';
+      message.textContent = trigger.getAttribute('data-confirm-message') || 'Are you sure you want to continue?';
+      submit.href = trigger.getAttribute('data-confirm-url') || '#';
+      submit.textContent = trigger.getAttribute('data-confirm-label') || 'Confirm';
+      submit.classList.toggle('btn-success', variant === 'success');
+      submit.classList.toggle('btn-danger', variant !== 'success');
+      icon.classList.toggle('success', variant === 'success');
+      icon.classList.toggle('danger', variant !== 'success');
+      icon.innerHTML = variant === 'success'
+        ? '<i class="bi bi-check-lg"></i>'
+        : '<i class="bi bi-trash3"></i>';
+    });
+
+    modal?.addEventListener('hidden.bs.modal', () => {
+      submit.href = '#';
+    });
+  })();
+</script>
 </body>
 </html>
