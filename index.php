@@ -95,7 +95,7 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
             </div>
             <h3 class="text-xl font-bold mb-3">Web Development</h3>
             <p class="text-muted-foreground text-sm leading-relaxed">
-              Custom websites and web applications built with modern frameworks like React, Vue, and PHP. Responsive, fast, and SEO-optimized.
+              Custom websites and web applications built with PHP, JavaScript, Laravel, Tailwind CSS, and Bootstrap. Responsive, fast, and SEO-optimized.
             </p>
           </div>
 
@@ -121,7 +121,7 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
             </div>
             <h3 class="text-xl font-bold mb-3">Mobile Apps</h3>
             <p class="text-muted-foreground text-sm leading-relaxed">
-              Cross-platform mobile applications using React Native and Flutter. Deliver seamless experiences on iOS and Android devices.
+              Responsive, mobile-first web experiences and installable PWA patterns using JavaScript, Tailwind CSS, and Web App Manifest support.
             </p>
           </div>
         </div>
@@ -330,21 +330,84 @@ $review_success = isset($_GET['review']) && $_GET['review'] === 'success';
 
         <!-- Skills Right -->
         <div class="space-y-6">
-          <h2 class="text-2xl font-bold tracking-tight">Skills</h2>
-          
-          <?php
-          // ── Skills — rendered via reusable function ──
-          $skills = [
-              ['Frontend Dev (React, Tailwind)', 95, 0,   'bg-blue-500 dark:bg-blue-400'],
-              ['Backend Systems (PHP, Node)',    85, 150, 'bg-emerald-500 dark:bg-emerald-400'],
-              ['Architectural Design',           90, 300, 'bg-amber-500 dark:bg-amber-400'],
-          ];
-          ?>
-          <div class="space-y-5">
-            <?php foreach ($skills as $s): ?>
-              <?php render_skill($s[0], $s[1], $s[2], $s[3]); ?>
-            <?php endforeach; ?>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">Verified technology usage</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight">Skills</h2>
+            <p class="mt-2 text-sm leading-6 text-muted-foreground">Scores are based on the reviewed systems and evidence in the project files, not subjective proficiency claims.</p>
           </div>
+
+          <?php
+          require_once 'includes/team_profile_helpers.php';
+          $homepage_all_skills = [];
+          $homepage_skills = [];
+          $skill_stmt = $conn->prepare('SELECT skills FROM team_members WHERE id = ? LIMIT 1');
+          if ($skill_stmt) {
+              $homepage_member_id = 2;
+              $skill_stmt->bind_param('i', $homepage_member_id);
+              $skill_stmt->execute();
+              $skill_result = $skill_stmt->get_result();
+              $skill_row = $skill_result ? $skill_result->fetch_assoc() : null;
+              $skill_stmt->close();
+              $homepage_all_skills = caztech_profile_parse_skills((string) ($skill_row['skills'] ?? ''));
+              $homepage_skills = caztech_profile_featured_skills($homepage_all_skills, 16);
+          }
+          ?>
+          <?php if ($homepage_skills): ?>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2" aria-label="Featured verified skills">
+              <?php foreach ($homepage_skills as $index => $skill):
+                  $skill_color = caztech_profile_skill_color_class($skill['category']);
+                  render_skill($skill['name'], (int) $skill['level'], $index * 75, $skill_color);
+              endforeach; ?>
+            </div>
+            <button id="open-skill-evidence" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="skill-evidence-modal" class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">View the complete skill evidence <span aria-hidden="true">→</span></button>
+
+            <?php
+            $homepage_skills_by_category = [];
+            foreach ($homepage_all_skills as $skill) {
+                $homepage_skills_by_category[$skill['category']][] = $skill;
+            }
+            ?>
+            <div id="skill-evidence-modal" class="fixed inset-0 z-[1000] hidden pointer-events-none opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none" aria-hidden="true">
+              <div id="skill-evidence-backdrop" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none"></div>
+              <div class="relative z-10 flex min-h-full items-center justify-center p-4 sm:p-6">
+                <section id="skill-evidence-dialog" role="dialog" aria-modal="true" aria-labelledby="skill-evidence-title" aria-describedby="skill-evidence-description" tabindex="-1" class="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border bg-card text-card-foreground opacity-0 translate-y-3 scale-[0.98] shadow-2xl transition-all duration-300 ease-out motion-reduce:transition-none">
+                  <header class="flex shrink-0 items-start justify-between gap-4 border-b bg-card/95 px-6 py-5 backdrop-blur sm:px-8">
+                    <div>
+                      <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">Christian George Santos</p>
+                      <h2 id="skill-evidence-title" class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">Complete skill evidence</h2>
+                      <p id="skill-evidence-description" class="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">All <?php echo count($homepage_all_skills); ?> verified skills from the reviewed systems. Percentages represent project evidence coverage and depth, not subjective proficiency.</p>
+                    </div>
+                    <button id="close-skill-evidence" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" aria-label="Close complete skill evidence">
+                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  </header>
+                  <div id="skill-evidence-content" class="min-h-0 overflow-y-auto p-6 sm:p-8">
+                    <div class="space-y-9">
+                      <?php foreach ($homepage_skills_by_category as $category => $category_skills):
+                          $category_label = htmlspecialchars($category, ENT_QUOTES, 'UTF-8');
+                          $category_color = htmlspecialchars(caztech_profile_skill_color_class($category), ENT_QUOTES, 'UTF-8');
+                      ?>
+                        <section class="space-y-4" aria-label="<?php echo $category_label; ?> skills">
+                          <div class="flex items-center gap-3">
+                            <span class="h-2.5 w-2.5 rounded-full <?php echo $category_color; ?>" aria-hidden="true"></span>
+                            <h3 class="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground"><?php echo $category_label; ?></h3>
+                          </div>
+                          <div class="grid gap-5 sm:grid-cols-2">
+                            <?php foreach ($category_skills as $skill):
+                                $skill_color = caztech_profile_skill_color_class($category);
+                                render_skill($skill['name'], (int) $skill['level'], 0, $skill_color);
+                            endforeach; ?>
+                          </div>
+                        </section>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="rounded-2xl border border-dashed bg-card/60 p-5 text-sm text-muted-foreground">Verified skills will appear here after the profile data is available.</div>
+          <?php endif; ?>
         </div>
 
       </div>

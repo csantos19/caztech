@@ -201,21 +201,59 @@ $page_description = $name . ' — ' . $role . ' at CAZTech Solutions.';
             <span class="hidden text-3xl font-black text-foreground/10 sm:block">STACK</span>
           </div>
           <?php if ($skills): ?>
-            <div class="mt-7 grid gap-5 sm:grid-cols-2">
-              <?php foreach ($skills as $index => $skill):
-                  $skill_name = caztech_profile_escape($skill['name']);
-                  $skill_level = (int) $skill['level'];
-                  $skill_color = ['bg-primary', 'bg-violet-500 dark:bg-violet-400', 'bg-cyan-500 dark:bg-cyan-400'][$index % 3];
-              ?>
-                <div class="space-y-2">
-                  <div class="flex items-center justify-between gap-3 text-sm font-semibold"><span><?php echo $skill_name; ?></span><?php if ($skill_level > 0): ?><span class="text-xs text-muted-foreground"><?php echo $skill_level; ?>%</span><?php endif; ?></div>
-                  <?php if ($skill_level > 0): ?>
-                    <div class="h-2 overflow-hidden rounded-full bg-secondary"><div class="h-full rounded-full <?php echo $skill_color; ?>" style="width:<?php echo $skill_level; ?>%" role="progressbar" aria-valuenow="<?php echo $skill_level; ?>" aria-valuemin="0" aria-valuemax="100" aria-label="<?php echo $skill_name; ?> proficiency"></div></div>
-                  <?php else: ?>
-                    <div class="h-2 rounded-full bg-primary/20"></div>
-                  <?php endif; ?>
-                </div>
-              <?php endforeach; ?>
+            <?php
+            require_once 'includes/components.php';
+            $profile_featured_skills = caztech_profile_featured_skills($skills, 16);
+            $profile_skills_by_category = [];
+            foreach ($skills as $skill) {
+                $profile_skills_by_category[$skill['category']][] = $skill;
+            }
+            ?>
+            <p class="mt-4 text-sm leading-6 text-muted-foreground">Percentages represent verified project usage across the reviewed systems, not a subjective proficiency claim.</p>
+            <div class="mt-7 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2" aria-label="Featured verified skills">
+              <?php foreach ($profile_featured_skills as $index => $skill):
+                  $skill_color = caztech_profile_skill_color_class($skill['category']);
+                  render_skill($skill['name'], (int) $skill['level'], $index * 75, $skill_color);
+              endforeach; ?>
+            </div>
+            <button id="open-skill-evidence" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="skill-evidence-modal" class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">View the complete skill evidence <span aria-hidden="true">→</span></button>
+
+            <div id="skill-evidence-modal" class="fixed inset-0 z-[1000] hidden pointer-events-none opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none" aria-hidden="true">
+              <div id="skill-evidence-backdrop" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none"></div>
+              <div class="relative z-10 flex min-h-full items-center justify-center p-4 sm:p-6">
+                <section id="skill-evidence-dialog" role="dialog" aria-modal="true" aria-labelledby="skill-evidence-title" aria-describedby="skill-evidence-description" tabindex="-1" class="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border bg-card text-card-foreground opacity-0 translate-y-3 scale-[0.98] shadow-2xl transition-all duration-300 ease-out motion-reduce:transition-none">
+                  <header class="flex shrink-0 items-start justify-between gap-4 border-b bg-card/95 px-6 py-5 backdrop-blur sm:px-8">
+                    <div>
+                      <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary"><?php echo caztech_profile_escape($name); ?></p>
+                      <h2 id="skill-evidence-title" class="mt-2 text-2xl font-black tracking-tight sm:text-3xl">Complete skill evidence</h2>
+                      <p id="skill-evidence-description" class="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">All <?php echo count($skills); ?> verified skills from <?php echo caztech_profile_escape($name); ?>'s reviewed systems. Percentages represent project evidence coverage and depth, not subjective proficiency.</p>
+                    </div>
+                    <button id="close-skill-evidence" type="button" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" aria-label="Close complete skill evidence">
+                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  </header>
+                  <div id="skill-evidence-content" class="min-h-0 overflow-y-auto p-6 sm:p-8">
+                    <div class="space-y-9">
+                      <?php foreach ($profile_skills_by_category as $category => $category_skills):
+                          $category_label = caztech_profile_escape($category);
+                          $category_color = caztech_profile_escape(caztech_profile_skill_color_class($category));
+                      ?>
+                        <section class="space-y-4" aria-label="<?php echo $category_label; ?> skills">
+                          <div class="flex items-center gap-3">
+                            <span class="h-2.5 w-2.5 rounded-full <?php echo $category_color; ?>" aria-hidden="true"></span>
+                            <h3 class="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground"><?php echo $category_label; ?></h3>
+                          </div>
+                          <div class="grid gap-5 sm:grid-cols-2">
+                            <?php foreach ($category_skills as $skill):
+                                render_skill($skill['name'], (int) $skill['level'], 0, caztech_profile_skill_color_class($category));
+                            endforeach; ?>
+                          </div>
+                        </section>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                </section>
+              </div>
             </div>
           <?php else: ?>
             <div class="mt-7 rounded-2xl border border-dashed bg-background/60 p-6">
@@ -252,7 +290,9 @@ $page_description = $name . ' — ' . $role . ' at CAZTech Solutions.';
                 <div class="relative flex h-44 items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-background to-secondary p-6">
                   <span class="absolute left-5 top-4 text-xs font-black text-foreground/40"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></span>
                   <?php if ($project_image !== ''): ?>
-                    <img src="<?php echo caztech_profile_escape($project_image); ?>" alt="<?php echo caztech_profile_escape($project_title); ?> preview" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105">
+                    <button type="button" data-img="<?php echo caztech_profile_escape($project_image); ?>" data-title="<?php echo caztech_profile_escape($project_title); ?>" data-category="<?php echo caztech_profile_escape($project_category); ?>" class="team-photo-btn block h-full w-full cursor-zoom-in rounded-2xl border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Preview <?php echo caztech_profile_escape($project_title); ?> image">
+                      <img src="<?php echo caztech_profile_escape($project_image); ?>" alt="<?php echo caztech_profile_escape($project_title); ?> preview" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105">
+                    </button>
                   <?php else: ?>
                     <span class="text-6xl font-black tracking-tighter text-primary/70">&lt;/&gt;</span>
                   <?php endif; ?>
@@ -293,5 +333,38 @@ $page_description = $name . ' — ' . $role . ' at CAZTech Solutions.';
   </main>
 
   <?php include 'includes/footer.php'; ?>
+
+  <!-- ── Logo Lightbox Modal ─────────────────────────────────── -->
+  <div id="logo-lightbox"
+       class="fixed inset-0 z-[999] flex items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-300"
+       role="dialog" aria-modal="true" aria-label="Logo preview">
+
+    <!-- Backdrop -->
+    <div id="lightbox-backdrop" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+    <!-- Panel -->
+    <div id="lightbox-panel"
+         class="relative z-10 flex flex-col items-center gap-6 max-w-3xl w-full mx-4 bg-card border rounded-3xl shadow-2xl p-8 sm:p-10 transform scale-90 transition-transform duration-300">
+
+      <!-- Close button -->
+      <button id="lightbox-close"
+              class="absolute top-4 right-4 h-8 w-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-muted-foreground hover:text-background transition-colors"
+              aria-label="Close" tabindex="-1">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Logo image -->
+      <img id="lightbox-img" src="" alt="" class="max-h-[65vh] w-auto max-w-full object-contain rounded-2xl shadow-md">
+
+      <!-- Caption -->
+      <div class="text-center space-y-1">
+        <p id="lightbox-caption" class="text-lg font-bold"></p>
+        <p id="lightbox-category" class="text-xs font-semibold text-primary tracking-wider uppercase"></p>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

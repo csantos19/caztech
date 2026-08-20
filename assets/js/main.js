@@ -108,6 +108,134 @@ document.addEventListener('DOMContentLoaded', () => {
             openLightbox(btn.dataset.img, btn.dataset.title, btn.dataset.category);
         });
     });
+    // ── Complete skill evidence modal ───────────────────────────────────────
+    const skillEvidenceModal = document.getElementById('skill-evidence-modal');
+    const skillEvidenceDialog = document.getElementById('skill-evidence-dialog');
+    const skillEvidenceOpen = document.getElementById('open-skill-evidence');
+    const skillEvidenceClose = document.getElementById('close-skill-evidence');
+    const skillEvidenceBackdrop = document.getElementById('skill-evidence-backdrop');
+    let skillEvidenceReturnFocus = null;
+    let skillEvidencePreviousOverflow = '';
+    let skillEvidenceCloseTimer = null;
+    const skillEvidenceReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const skillEvidenceTransitionMs = skillEvidenceReducedMotion ? 0 : 300;
+
+    function animateSkillEvidenceBars() {
+        if (!skillEvidenceModal) return;
+        const bars = [...skillEvidenceModal.querySelectorAll('.skill-progress')];
+        if (!bars.length) return;
+
+        bars.forEach(bar => {
+            bar.style.transitionDuration = '0ms';
+            bar.classList.add('w-0');
+            bar.style.width = '0%';
+            void bar.offsetWidth;
+            bar.style.transitionDuration = skillEvidenceReducedMotion ? '0ms' : '';
+        });
+
+        if (skillEvidenceReducedMotion) {
+            bars.forEach(bar => {
+                bar.classList.remove('w-0');
+                bar.style.width = bar.getAttribute('data-width') || '0%';
+            });
+            return;
+        }
+
+        window.requestAnimationFrame(() => {
+            bars.forEach(bar => {
+                bar.classList.remove('w-0');
+                bar.style.width = bar.getAttribute('data-width') || '0%';
+            });
+        });
+    }
+
+    function getSkillEvidenceFocusableElements() {
+        if (!skillEvidenceDialog) return [];
+        return [...skillEvidenceDialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+            .filter(element => !element.hasAttribute('disabled') && element.getClientRects().length > 0);
+    }
+
+    function openSkillEvidence() {
+        if (!skillEvidenceModal) return;
+        window.clearTimeout(skillEvidenceCloseTimer);
+        skillEvidenceReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        skillEvidencePreviousOverflow = document.body.style.overflow;
+        skillEvidenceModal.classList.remove('hidden');
+        skillEvidenceModal.classList.remove('opacity-100', 'pointer-events-auto');
+        skillEvidenceModal.classList.add('opacity-0', 'pointer-events-none');
+        skillEvidenceBackdrop?.classList.remove('opacity-100');
+        skillEvidenceBackdrop?.classList.add('opacity-0');
+        skillEvidenceDialog?.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+        skillEvidenceDialog?.classList.add('opacity-0', 'translate-y-3', 'scale-[0.98]');
+        skillEvidenceModal.setAttribute('aria-hidden', 'false');
+        skillEvidenceOpen?.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        window.requestAnimationFrame(() => {
+            skillEvidenceModal?.classList.remove('opacity-0', 'pointer-events-none');
+            skillEvidenceModal?.classList.add('opacity-100', 'pointer-events-auto');
+            skillEvidenceBackdrop?.classList.remove('opacity-0');
+            skillEvidenceBackdrop?.classList.add('opacity-100');
+            skillEvidenceDialog?.classList.remove('opacity-0', 'translate-y-3', 'scale-[0.98]');
+            skillEvidenceDialog?.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+            animateSkillEvidenceBars();
+            skillEvidenceClose?.focus();
+        });
+    }
+
+    function closeSkillEvidence() {
+        if (!skillEvidenceModal || skillEvidenceModal.classList.contains('hidden')) return;
+        window.clearTimeout(skillEvidenceCloseTimer);
+        skillEvidenceModal.setAttribute('aria-hidden', 'true');
+        skillEvidenceOpen?.setAttribute('aria-expanded', 'false');
+        skillEvidenceModal.classList.add('opacity-0', 'pointer-events-none');
+        skillEvidenceModal.classList.remove('opacity-100', 'pointer-events-auto');
+        skillEvidenceBackdrop?.classList.add('opacity-0');
+        skillEvidenceBackdrop?.classList.remove('opacity-100');
+        skillEvidenceDialog?.classList.add('opacity-0', 'translate-y-3', 'scale-[0.98]');
+        skillEvidenceDialog?.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+        document.body.style.overflow = skillEvidencePreviousOverflow;
+        if (skillEvidenceReturnFocus && document.contains(skillEvidenceReturnFocus)) {
+            skillEvidenceReturnFocus.focus();
+        }
+        skillEvidenceReturnFocus = null;
+        skillEvidenceCloseTimer = window.setTimeout(() => {
+            if (skillEvidenceModal?.getAttribute('aria-hidden') === 'true') {
+                skillEvidenceModal.classList.add('hidden');
+            }
+        }, skillEvidenceTransitionMs);
+    }
+
+    skillEvidenceOpen?.addEventListener('click', openSkillEvidence);
+    skillEvidenceClose?.addEventListener('click', closeSkillEvidence);
+    skillEvidenceBackdrop?.addEventListener('click', closeSkillEvidence);
+    skillEvidenceModal?.addEventListener('keydown', event => {
+        if (event.key !== 'Tab') return;
+        const focusable = getSkillEvidenceFocusableElements();
+        if (!focusable.length) {
+            event.preventDefault();
+            skillEvidenceDialog?.focus();
+            return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!skillEvidenceDialog?.contains(document.activeElement)) {
+            event.preventDefault();
+            first.focus();
+        } else if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && skillEvidenceModal && !skillEvidenceModal.classList.contains('hidden')) {
+            event.preventDefault();
+            closeSkillEvidence();
+        }
+    });
     // ───────────────────────────────────────────────────────────────────────
 
     // ?? Project Filtering & Showcase Rendering ?????????????????????????????

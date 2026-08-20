@@ -241,7 +241,7 @@ $login_time  = isset($_SESSION['caztech_login_time'])
             <div class="ac-icon"><i class="bi bi-chat-quote text-dark"></i></div>
             <div>
               <p class="fw-semibold mb-0" style="font-size:0.88rem;">Manage Reviews</p>
-              <p class="text-muted mb-0" style="font-size:0.76rem;">Approve or delete client reviews</p>
+              <p class="text-muted mb-0" style="font-size:0.76rem;">Approve reviews and view contact messages</p>
             </div>
           </a>
         </div>

@@ -31,7 +31,7 @@ CREATE TABLE `leads` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `business` varchar(255) NOT NULL,
-  `project_type` varchar(100) NOT NULL,
+  `project_type` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -188,62 +188,63 @@ COMMIT;
 
 -- Skills for Christian George Santos (`team_members.id` = 2).
 UPDATE `team_members`
-SET `skills` = '[Languages] PHP
-[Languages] JavaScript
-[Languages] HTML5
-[Languages] CSS3
-[Languages] SQL
-[Languages] JSON
-[Templates] Laravel Blade
-[Databases] MySQL / MariaDB
-[Databases] SQLite
-[Databases] Redis (Laravel realtime/cache configuration)
-[Backend] Laravel
-[Backend] Eloquent ORM / migrations
-[Backend] Laravel Sanctum
-[Backend] Laravel Breeze
-[Backend] Laravel Reverb / WebSockets
-[Backend] Laravel Echo / Pusher JS
-[Backend] MySQLi / PDO
-[Backend] REST APIs / AJAX
-[Backend] Sessions / authentication / role-based access
-[Frontend] Tailwind CSS
-[Frontend] Bootstrap
-[Frontend] Bootstrap Icons
-[Frontend] Alpine.js
-[Frontend] jQuery / jQuery UI / jQuery Validate
-[Frontend] jQuery DataTables
-[Frontend] jQuery Steps
-[Frontend] Datepicker
-[Frontend] Bootstrap Fileupload
-[Frontend] MetisMenu / MixItUp / PrettyPhoto
-[Frontend] FullCalendar
-[Frontend] ApexCharts
-[Frontend] Chart.js
-[Frontend] SweetAlert2
-[Frontend] Font Awesome
-[Frontend] Axios
-[Frontend] Turbo / Hotwire
-[Frontend] Dropzone / Flatpickr
-[Frontend] jsVectorMap / Swiper
-[Frontend] TailAdmin
-[Email] PHPMailer / SMTP
-[Reports] Dompdf / PDF generation
-[Reports] Laravel Excel / PhpSpreadsheet
-[Tooling] Composer
-[Tooling] Node.js / npm
-[Tooling] Vite / Laravel Vite
-[Tooling] Webpack / Babel
-[Tooling] PostCSS / Autoprefixer
-[Tooling] Prettier
-[Tooling] PHPUnit / Laravel Pint
-[Tooling] Laravel Artisan / Sail / Tinker
-[Tooling] PWA / Web App Manifest
-[Deployment] XAMPP / Apache
-[Deployment] phpMyAdmin
-[Deployment] InfinityFree / FTP / FileZilla
-[Tools] VS Code
-[Tools] Git / GitHub
-[Automation] Windows Batch / PowerShell / VBScript
-[Tools] Microsoft Excel'
+SET `skills` = '[Languages] PHP|96
+[Languages] JavaScript|92
+[Languages] HTML5|94
+[Languages] CSS3|90
+[Languages] SQL|92
+[Languages] JSON|82
+[Templates] Laravel Blade|82
+[Databases] MySQL / MariaDB|94
+[Databases] SQLite|68
+[Databases] Redis (Laravel realtime/cache configuration)|56
+[Backend] Laravel|86
+[Backend] Eloquent ORM / migrations|84
+[Backend] Laravel Sanctum|60
+[Backend] Laravel Breeze|55
+[Backend] Laravel Reverb / WebSockets|62
+[Backend] Laravel Echo / Pusher JS|61
+[Backend] MySQLi / PDO|92
+[Backend] REST APIs / AJAX|90
+[Backend] Sessions / authentication / role-based access|94
+[Frontend] Tailwind CSS|86
+[Frontend] Bootstrap|88
+[Frontend] Bootstrap Icons|75
+[Frontend] Alpine.js|82
+[Frontend] jQuery / jQuery UI / jQuery Validate|79
+[Frontend] jQuery DataTables|69
+[Frontend] jQuery Steps|48
+[Frontend] Datepicker|58
+[Frontend] Bootstrap Fileupload|45
+[Frontend] MetisMenu / MixItUp / PrettyPhoto|44
+[Frontend] FullCalendar|57
+[Frontend] ApexCharts|60
+[Frontend] Chart.js|55
+[Frontend] SweetAlert2|62
+[Frontend] Font Awesome|84
+[Frontend] Axios|71
+[Frontend] Turbo / Hotwire|42
+[Frontend] Dropzone / Flatpickr|48
+[Frontend] jsVectorMap / Swiper|40
+[Frontend] TailAdmin|66
+[Email] PHPMailer / SMTP|72
+[Reports] Dompdf / PDF generation|67
+[Reports] Laravel Excel / PhpSpreadsheet|58
+[Tooling] Composer|86
+[Tooling] Node.js / npm|84
+[Tooling] Vite / Laravel Vite|78
+[Tooling] Webpack / Babel|60
+[Tooling] PostCSS / Autoprefixer|73
+[Tooling] Prettier|48
+[Tooling] PHPUnit / Laravel Pint|62
+[Tooling] Laravel Artisan / Sail / Tinker|78
+[Tooling] PWA / Web App Manifest|46
+[Deployment] XAMPP / Apache|93
+[Deployment] phpMyAdmin|84
+[Deployment] InfinityFree / FTP / FileZilla|55
+[Deployment] Hostinger|72
+[Tools] VS Code|78
+[Tools] Git / GitHub|68
+[Automation] Windows Batch / PowerShell / VBScript|54
+[Tools] Microsoft Excel|56'
 WHERE `id` = 2;

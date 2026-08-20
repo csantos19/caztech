@@ -128,6 +128,77 @@ if ($_depth <= 1) $_root = '';
       --ring: 240 4.9% 83.9%;
     }
 
+    .skill-progress-item {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .skill-progress-item::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      left: -42%;
+      width: 32%;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, .04) 25%, rgba(255, 255, 255, .24) 50%, rgba(255, 255, 255, .04) 75%, transparent 100%);
+      transform: skewX(-18deg);
+      transition: left 550ms cubic-bezier(.22, .61, .36, 1), opacity 220ms ease;
+    }
+
+    .skill-progress-item:hover::after,
+    .skill-progress-item:focus-within::after {
+      left: 112%;
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .skill-progress-item::after {
+        transition: opacity 180ms ease;
+      }
+
+      .skill-progress-item:hover::after,
+      .skill-progress-item:focus-within::after {
+        left: 0;
+        opacity: .15;
+      }
+    }
+
+    .skill-spy-link {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid hsl(var(--border));
+      border-radius: .5rem;
+      background: hsl(var(--background) / .8);
+      color: hsl(var(--muted-foreground));
+      padding: .4rem .7rem;
+      font-size: .72rem;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+
+    .skill-spy-link:hover,
+    .skill-spy-link:focus-visible {
+      border-color: hsl(var(--primary) / .45);
+      color: hsl(var(--primary));
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .skill-spy-link.is-active {
+      border-color: hsl(var(--primary));
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      box-shadow: 0 6px 18px hsl(var(--primary) / .2);
+    }
+
     body {
       background-color: hsl(var(--background));
       color: hsl(var(--foreground));

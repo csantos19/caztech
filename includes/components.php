@@ -26,18 +26,18 @@ function render_stars(int $count = 5): void {
  * @param int    $delay_ms  CSS transition delay in milliseconds
  */
 function render_skill(string $name, int $pct, int $delay_ms = 0, string $color_class = 'bg-primary'): void {
+    $pct = max(0, min(100, $pct));
     $delay_style = $delay_ms > 0 ? ' style="transition-delay:' . $delay_ms . 'ms"' : '';
     $safe_name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
     $safe_color_class = htmlspecialchars($color_class, ENT_QUOTES, 'UTF-8');
     echo '
-    <div class="space-y-2">
+    <div class="skill-progress-item group cursor-pointer overflow-hidden rounded-xl border border-transparent p-3 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/10 active:scale-[0.99] focus-within:border-primary/50 focus-within:bg-primary/10 focus-within:shadow-lg focus-within:shadow-primary/15">
       <div class="flex justify-between items-center text-sm font-medium">
         <span>' . $safe_name . '</span>
-        <span class="text-muted-foreground">' . $pct . '%</span>
+        <span class="text-muted-foreground">' . $pct . '%<span class="sr-only"> verified project usage</span></span>
       </div>
-      <div class="h-2.5 w-full rounded-full bg-secondary/80 border border-border/60 overflow-hidden">
-        <div class="h-full rounded-full ' . $safe_color_class . ' skill-progress w-0 transition-all duration-[1500ms] ease-out shadow-sm"
-             data-width="' . $pct . '%" role="progressbar" aria-valuenow="' . $pct . '" aria-valuemin="0" aria-valuemax="100" aria-label="' . $safe_name . ' proficiency"' . $delay_style . '></div>
+      <div class="h-2.5 w-full rounded-full bg-secondary/80 border border-border/60 overflow-hidden transition-colors duration-300 group-hover:bg-primary/10 group-focus-within:bg-primary/10 group-active:bg-primary/20" title="' . $pct . '% verified project usage">
+        <div class="h-full rounded-full ' . $safe_color_class . ' skill-progress w-0 cursor-pointer transition-all duration-[1500ms] ease-out shadow-sm hover:brightness-110 hover:shadow-lg hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:brightness-110 focus-visible:shadow-lg focus-visible:shadow-primary/30 active:scale-[0.995] active:brightness-125" data-width="' . $pct . '%" role="progressbar" tabindex="0" aria-valuenow="' . $pct . '" aria-valuemin="0" aria-valuemax="100" aria-label="' . $safe_name . ' verified project usage"' . $delay_style . '></div>
       </div>
     </div>';
 }
